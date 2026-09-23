@@ -136,7 +136,6 @@
   .col-id{ font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:.78rem; color:var(--ink-muted); white-space:nowrap; }
   .col-wohnung{ color:var(--ink); font-size:.87rem; white-space:nowrap; }
   .col-mangel{ max-width:340px; }
-  .col-aufenthalt{ font-family:'IBM Plex Mono', ui-monospace, monospace; font-variant-numeric:tabular-nums; white-space:nowrap; color:var(--ink-muted); }
   .col-zugewiesen{ max-width:220px; }
   .subline{ display:block; margin-top:6px; font-size:.78rem; color:var(--ink-muted); }
 
@@ -218,7 +217,6 @@
     .col-mangel .subline{ text-align:left; }
     .col-zugewiesen{ max-width:none; flex-direction:column; align-items:stretch; text-align:left; }
     .col-zugewiesen .subline{ text-align:left; }
-    .col-aufenthalt{ text-align:right; }
     .subline{ font-size:.88rem; }
     .tag{ font-size:.82rem; padding:4px 11px; }
     .group-row td.group-cell{ font-size:1rem; }
@@ -275,7 +273,6 @@
           <th>Wohnung</th>
           <th>Mangel</th>
           <th>Kategorie</th>
-          <th>Aufenthalt</th>
           <th>Status</th>
           <th>Zugewiesen an</th>
         </tr>
@@ -1415,22 +1412,24 @@ function rowMatches(d){
 function rowHTML(d){
   const kKlasse = KATEGORIE_KLASSE[d.kategorie] || "defekt";
   const sKlasse = STATUS_KLASSE[d.status] || "offen";
-  const seitZeile = d.status === "Offen"
-    ? '<span class="subline">offen seit ' + fmtDate(d.gemeldetAm) + '</span>'
-    : '<span class="subline">gemeldet ' + fmtDate(d.gemeldetAm) + '</span>';
+  const zeitraumM = /^(\d{2})\.(\d{2})\.\d{4}[–-](\d{2}\.\d{2}\.\d{4})$/.exec(d.aufenthalt || "");
+  const teile = [];
+  if(zeitraumM) teile.push(zeitraumM[1] + "." + zeitraumM[2] + " - " + zeitraumM[3]);
+  teile.push("gemeldet: " + fmtDate(d.gemeldetAm));
+  teile.push(d.status);
+  const infoZeile = '<span class="subline">' + esc(teile.join(" - ")) + '</span>';
   return '<tr>' +
     '<td class="col-id" data-label="ID"><span class="val">' + esc(d.id) + '</span></td>' +
     '<td class="col-wohnung" data-label="Wohnung"><span class="val">' + esc(d.wohnung) + '</span></td>' +
-    '<td class="col-mangel" data-label="Mangel"><span class="val">' + esc(d.mangel) + '</span>' + seitZeile + '</td>' +
+    '<td class="col-mangel" data-label="Mangel"><span class="val">' + esc(d.mangel) + '</span>' + infoZeile + '</td>' +
     '<td class="col-kategorie" data-label="Kategorie"><span class="tag tag-' + kKlasse + '">' + esc(d.kategorie) + '</span></td>' +
-    '<td class="col-aufenthalt" data-label="Aufenthalt"><span class="val">' + esc(d.aufenthalt) + '</span></td>' +
     '<td class="col-status" data-label="Status"><span class="tag tag-' + sKlasse + '">' + esc(d.status) + '</span></td>' +
     '<td class="col-zugewiesen" data-label="Zugewiesen an"><span class="val">' + esc(d.zugewiesen) + '</span>' + (d.notiz ? '<span class="subline">' + esc(d.notiz) + '</span>' : '') + '</td>' +
     '</tr>';
 }
 
 function groupHeaderHTML(objekt, anzahl){
-  return '<tr class="group-row"><td class="group-cell" colspan="7">' + esc(objekt) + ' <span class="group-count">(' + anzahl + ')</span></td></tr>';
+  return '<tr class="group-row"><td class="group-cell" colspan="6">' + esc(objekt) + ' <span class="group-count">(' + anzahl + ')</span></td></tr>';
 }
 
 function render(){
