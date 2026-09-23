@@ -89,6 +89,20 @@
     background:var(--surface-2); border:1px solid var(--line); border-radius:12px;
     padding:12px 14px; margin-bottom:16px;
   }
+  .chip-group{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+  .chip-group-label{ font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); font-weight:700; margin-right:2px; }
+  .filter-chip{
+    font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:.76rem; font-weight:600;
+    border:1px solid var(--line); background:var(--surface); color:var(--ink-muted);
+    border-radius:99px; padding:5px 11px; cursor:pointer; letter-spacing:.01em;
+  }
+  .filter-chip[aria-pressed="true"]{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .filter-chip[data-kategorie="Defekt"][aria-pressed="true"]{ background:var(--defekt); border-color:var(--defekt); }
+  .filter-chip[data-kategorie="Fehlt"][aria-pressed="true"]{ background:var(--fehlt); border-color:var(--fehlt); }
+  .filter-chip[data-kategorie="Verbesserung"][aria-pressed="true"]{ background:var(--verbesserung); border-color:var(--verbesserung); }
+  .filter-chip[data-status="Offen"][aria-pressed="true"]{ background:var(--offen); border-color:var(--offen); }
+  .filter-chip[data-status="Gelöst"][aria-pressed="true"]{ background:var(--geloest); border-color:var(--geloest); }
+
   .spacer{ flex:1 1 auto; }
   select, input[type="search"]{
     font:inherit; font-size:.86rem; color:var(--ink); background:var(--surface);
@@ -226,6 +240,17 @@
   </header>
 
   <div class="toolbar">
+    <div class="chip-group" id="kategorie-filters" role="group" aria-label="Nach Kategorie filtern">
+      <span class="chip-group-label">Kategorie</span>
+      <button class="filter-chip" data-kategorie="Defekt" aria-pressed="false">Defekt</button>
+      <button class="filter-chip" data-kategorie="Fehlt" aria-pressed="false">Fehlt</button>
+      <button class="filter-chip" data-kategorie="Verbesserung" aria-pressed="false">Verbesserung</button>
+    </div>
+    <div class="chip-group" id="status-filters" role="group" aria-label="Nach Status filtern">
+      <span class="chip-group-label">Status</span>
+      <button class="filter-chip" data-status="Offen" aria-pressed="false">Offen</button>
+      <button class="filter-chip" data-status="Gelöst" aria-pressed="false">Gelöst</button>
+    </div>
     <select id="objekt-filter" aria-label="Nach Haus filtern">
       <option value="">Alle Häuser</option>
     </select>
@@ -1356,6 +1381,8 @@ function esc(s){
 
 let objektFilter = "";
 let searchTerm = "";
+let aktiveKategorien = new Set();
+let aktiveStatus = new Set();
 
 function populateObjektFilter(){
   const sel = document.getElementById("objekt-filter");
@@ -1368,6 +1395,8 @@ function populateObjektFilter(){
 }
 
 function rowMatches(d){
+  if(aktiveKategorien.size && !aktiveKategorien.has(d.kategorie)) return false;
+  if(aktiveStatus.size && !aktiveStatus.has(d.status)) return false;
   if(objektFilter && d.objekt !== objektFilter) return false;
   if(searchTerm){
     const hay = (d.id + " " + d.objekt + " " + d.wohnung + " " + d.mangel + " " + d.kategorie + " " + d.status + " " + d.zugewiesen + " " + d.notiz).toLowerCase();
@@ -1413,6 +1442,22 @@ function render(){
   document.getElementById("empty-msg").hidden = filtered.length > 0;
 }
 
+document.querySelectorAll("#kategorie-filters .filter-chip").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const k = btn.dataset.kategorie;
+    if(aktiveKategorien.has(k)){ aktiveKategorien.delete(k); btn.setAttribute("aria-pressed", "false"); }
+    else { aktiveKategorien.add(k); btn.setAttribute("aria-pressed", "true"); }
+    render();
+  });
+});
+document.querySelectorAll("#status-filters .filter-chip").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const s = btn.dataset.status;
+    if(aktiveStatus.has(s)){ aktiveStatus.delete(s); btn.setAttribute("aria-pressed", "false"); }
+    else { aktiveStatus.add(s); btn.setAttribute("aria-pressed", "true"); }
+    render();
+  });
+});
 document.getElementById("objekt-filter").addEventListener("change", e => { objektFilter = e.target.value; render(); });
 document.getElementById("search").addEventListener("input", e => { searchTerm = e.target.value.toLowerCase(); render(); });
 
