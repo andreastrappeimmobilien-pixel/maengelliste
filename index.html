@@ -202,20 +202,27 @@
     tbody tr:last-child{ margin-bottom:0; }
     tbody td{
       display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
-      padding:6px 0; border-bottom:1px dashed var(--line); text-align:right;
+      padding:8px 0; border-bottom:1px dashed var(--line); text-align:right;
+      font-size:1rem;
     }
+    .val{ min-width:0; overflow-wrap:break-word; white-space:normal; }
     tbody td:last-child{ border-bottom:none; }
     tbody td::before{
       content:attr(data-label); text-align:left; flex:0 0 auto;
-      font-size:.7rem; text-transform:uppercase; letter-spacing:.04em;
+      font-size:.8rem; text-transform:uppercase; letter-spacing:.04em;
       color:var(--ink-faint); font-weight:700; padding-top:.15em;
     }
+    .col-id{ font-size:.9rem; }
     .col-wohnung{ text-align:right; }
     .col-mangel{ max-width:none; flex-direction:column; align-items:stretch; text-align:left; font-weight:500; }
     .col-mangel .subline{ text-align:left; }
     .col-zugewiesen{ max-width:none; flex-direction:column; align-items:stretch; text-align:left; }
     .col-zugewiesen .subline{ text-align:left; }
     .col-aufenthalt{ text-align:right; }
+    .subline{ font-size:.88rem; }
+    .tag{ font-size:.82rem; padding:4px 11px; }
+    .group-row td.group-cell{ font-size:1rem; }
+    .group-count{ font-size:.86rem; }
   }
 </style>
 </head>
@@ -1412,13 +1419,13 @@ function rowHTML(d){
     ? '<span class="subline">offen seit ' + fmtDate(d.gemeldetAm) + '</span>'
     : '<span class="subline">gemeldet ' + fmtDate(d.gemeldetAm) + '</span>';
   return '<tr>' +
-    '<td class="col-id" data-label="ID">' + esc(d.id) + '</td>' +
-    '<td class="col-wohnung" data-label="Wohnung">' + esc(d.wohnung) + '</td>' +
-    '<td class="col-mangel" data-label="Mangel">' + esc(d.mangel) + seitZeile + '</td>' +
+    '<td class="col-id" data-label="ID"><span class="val">' + esc(d.id) + '</span></td>' +
+    '<td class="col-wohnung" data-label="Wohnung"><span class="val">' + esc(d.wohnung) + '</span></td>' +
+    '<td class="col-mangel" data-label="Mangel"><span class="val">' + esc(d.mangel) + '</span>' + seitZeile + '</td>' +
     '<td class="col-kategorie" data-label="Kategorie"><span class="tag tag-' + kKlasse + '">' + esc(d.kategorie) + '</span></td>' +
-    '<td class="col-aufenthalt" data-label="Aufenthalt">' + esc(d.aufenthalt) + '</td>' +
+    '<td class="col-aufenthalt" data-label="Aufenthalt"><span class="val">' + esc(d.aufenthalt) + '</span></td>' +
     '<td class="col-status" data-label="Status"><span class="tag tag-' + sKlasse + '">' + esc(d.status) + '</span></td>' +
-    '<td class="col-zugewiesen" data-label="Zugewiesen an">' + esc(d.zugewiesen) + (d.notiz ? '<span class="subline">' + esc(d.notiz) + '</span>' : '') + '</td>' +
+    '<td class="col-zugewiesen" data-label="Zugewiesen an"><span class="val">' + esc(d.zugewiesen) + '</span>' + (d.notiz ? '<span class="subline">' + esc(d.notiz) + '</span>' : '') + '</td>' +
     '</tr>';
 }
 
