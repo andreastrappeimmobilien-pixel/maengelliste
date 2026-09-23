@@ -19,14 +19,16 @@
     --accent-strong:#0A4F55;
     --accent-ink:#FFFFFF;
     --line:#D9E1DE;
-    --sofort:#B3261E;
-    --sofort-bg:#FBE9E7;
-    --woche:#8A5A0A;
-    --woche-bg:#FBF0DC;
-    --monat:#2F6B45;
-    --monat-bg:#E4F1E7;
-    --gelöst:#63736F;
-    --gelöst-bg:#EEF1F0;
+    --defekt:#B3261E;
+    --defekt-bg:#FBE9E7;
+    --fehlt:#8A5A0A;
+    --fehlt-bg:#FBF0DC;
+    --verbesserung:#2F6B45;
+    --verbesserung-bg:#E4F1E7;
+    --offen:#0A4F55;
+    --offen-bg:#DCEEEF;
+    --geloest:#63736F;
+    --geloest-bg:#EEF1F0;
     --shadow: 0 1px 2px rgba(21,38,37,.06), 0 6px 16px -8px rgba(21,38,37,.18);
     color-scheme: light;
   }
@@ -36,10 +38,11 @@
       --ink:#E7EEEC; --ink-muted:#9FB4AF; --ink-faint:#6C827D;
       --accent:#4FC7C9; --accent-strong:#7FE0DF; --accent-ink:#062423;
       --line:#283532;
-      --sofort:#FF7B6E; --sofort-bg:#3A1E1B;
-      --woche:#E8B84A; --woche-bg:#3A2F14;
-      --monat:#7FD09A; --monat-bg:#1B3324;
-      --gelöst:#8FA19D; --gelöst-bg:#20302C;
+      --defekt:#FF7B6E; --defekt-bg:#3A1E1B;
+      --fehlt:#E8B84A; --fehlt-bg:#3A2F14;
+      --verbesserung:#7FD09A; --verbesserung-bg:#1B3324;
+      --offen:#7FE0DF; --offen-bg:#123638;
+      --geloest:#8FA19D; --geloest-bg:#20302C;
       --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 20px -10px rgba(0,0,0,.5);
       color-scheme: dark;
     }
@@ -49,10 +52,11 @@
     --ink:#E7EEEC; --ink-muted:#9FB4AF; --ink-faint:#6C827D;
     --accent:#4FC7C9; --accent-strong:#7FE0DF; --accent-ink:#062423;
     --line:#283532;
-    --sofort:#FF7B6E; --sofort-bg:#3A1E1B;
-    --woche:#E8B84A; --woche-bg:#3A2F14;
-    --monat:#7FD09A; --monat-bg:#1B3324;
-    --gelöst:#8FA19D; --gelöst-bg:#20302C;
+    --defekt:#FF7B6E; --defekt-bg:#3A1E1B;
+    --fehlt:#E8B84A; --fehlt-bg:#3A2F14;
+    --verbesserung:#7FD09A; --verbesserung-bg:#1B3324;
+    --offen:#7FE0DF; --offen-bg:#123638;
+    --geloest:#8FA19D; --geloest-bg:#20302C;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 20px -10px rgba(0,0,0,.5);
     color-scheme: dark;
   }
@@ -85,18 +89,6 @@
     background:var(--surface-2); border:1px solid var(--line); border-radius:12px;
     padding:12px 14px; margin-bottom:16px;
   }
-  .chip-group{ display:flex; gap:6px; flex-wrap:wrap; }
-  .filter-chip{
-    font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:.76rem; font-weight:600;
-    border:1px solid var(--line); background:var(--surface); color:var(--ink-muted);
-    border-radius:99px; padding:5px 11px; cursor:pointer; letter-spacing:.01em;
-  }
-  .filter-chip[aria-pressed="true"]{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
-  .filter-chip[data-level="sofort"][aria-pressed="true"]{ background:var(--sofort); border-color:var(--sofort); }
-  .filter-chip[data-level="woche"][aria-pressed="true"]{ background:var(--woche); border-color:var(--woche); }
-  .filter-chip[data-level="monat"][aria-pressed="true"]{ background:var(--monat); border-color:var(--monat); }
-  .filter-chip[data-level="gelöst"][aria-pressed="true"]{ background:var(--gelöst); border-color:var(--gelöst); }
-
   .spacer{ flex:1 1 auto; }
   select, input[type="search"]{
     font:inherit; font-size:.86rem; color:var(--ink); background:var(--surface);
@@ -118,11 +110,8 @@
     text-align:left; font-size:.74rem; text-transform:uppercase; letter-spacing:.04em;
     color:var(--ink-muted); font-weight:700; padding:10px 12px;
     border-bottom:1px solid var(--line); background:var(--surface-2);
-    white-space:nowrap; cursor:pointer; user-select:none;
+    white-space:nowrap;
   }
-  thead th:hover{ color:var(--ink); }
-  thead th .arrow{ opacity:.4; margin-left:3px; }
-  thead th[aria-sort="ascending"] .arrow, thead th[aria-sort="descending"] .arrow{ opacity:1; color:var(--accent); }
   tbody td{
     padding:10px 12px; font-size:.87rem; border-bottom:1px solid var(--line);
     vertical-align:top; line-height:1.4;
@@ -131,23 +120,28 @@
   tbody tr:hover{ background:var(--surface-2); }
   tbody tr.is-hidden{ display:none; }
   .col-id{ font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:.78rem; color:var(--ink-muted); white-space:nowrap; }
-  .col-haus{ color:var(--ink); font-size:.87rem; white-space:nowrap; }
-  .col-wohnung{ color:var(--ink-muted); font-size:.82rem; }
-  .col-mangel{ max-width:320px; }
-  .col-datum{ font-family:'IBM Plex Mono', ui-monospace, monospace; font-variant-numeric:tabular-nums; white-space:nowrap; }
-  .col-zustaendig{ max-width:220px; }
-  .col-zustaendig .notiz{ display:block; margin-top:6px; font-size:.78rem; color:var(--ink-muted); }
-  .col-gemeldet .aufenthalt{ display:block; margin-top:4px; font-size:.78rem; color:var(--ink-muted); font-family:'IBM Plex Mono', ui-monospace, monospace; }
-  .col-tage{ font-family:'IBM Plex Mono', ui-monospace, monospace; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .col-wohnung{ color:var(--ink); font-size:.87rem; white-space:nowrap; }
+  .col-mangel{ max-width:340px; }
+  .col-aufenthalt{ font-family:'IBM Plex Mono', ui-monospace, monospace; font-variant-numeric:tabular-nums; white-space:nowrap; color:var(--ink-muted); }
+  .col-zugewiesen{ max-width:220px; }
+  .subline{ display:block; margin-top:6px; font-size:.78rem; color:var(--ink-muted); }
+
+  .group-row td.group-cell{
+    background:var(--surface-2); border-bottom:1px solid var(--line);
+    padding:9px 12px; font-family:'Archivo', system-ui, sans-serif; font-weight:800;
+    font-size:.9rem; color:var(--accent-strong); letter-spacing:.01em;
+  }
+  .group-count{ font-weight:600; color:var(--ink-faint); font-size:.8rem; }
 
   .tag{
     display:inline-block; border-radius:99px; padding:3px 10px;
     font-size:.74rem; font-weight:700; white-space:nowrap;
   }
-  .tag-sofort{ background:var(--sofort-bg); color:var(--sofort); }
-  .tag-woche{ background:var(--woche-bg); color:var(--woche); }
-  .tag-monat{ background:var(--monat-bg); color:var(--monat); }
-  .tag-gelöst{ background:var(--gelöst-bg); color:var(--gelöst); text-decoration:line-through; }
+  .tag-defekt{ background:var(--defekt-bg); color:var(--defekt); }
+  .tag-fehlt{ background:var(--fehlt-bg); color:var(--fehlt); }
+  .tag-verbesserung{ background:var(--verbesserung-bg); color:var(--verbesserung); }
+  .tag-offen{ background:var(--offen-bg); color:var(--offen); }
+  .tag-geloest{ background:var(--geloest-bg); color:var(--geloest); text-decoration:line-through; }
 
   .empty{ padding:32px; text-align:center; color:var(--ink-faint); font-size:.9rem; }
 
@@ -178,15 +172,16 @@
 
   /* Karten-Ansicht fürs Handy statt scrollender Tabelle */
   @media (max-width: 720px){
-    .mobile-sort{ display:flex; align-items:center; gap:8px; width:100%; order:1; }
-    .mobile-sort label{ font-size:.78rem; color:var(--ink-muted); white-space:nowrap; }
-    .mobile-sort select{ flex:1 1 auto; }
-
     .table-scroll{ overflow-x:visible; border:none; background:none; box-shadow:none; }
     table{ min-width:0; width:100%; display:block; }
     thead{ display:none; }
     tbody{ display:block; }
-    tbody tr{
+    tbody tr.group-row{
+      display:block; background:none; border:none; border-radius:0;
+      box-shadow:none; padding:14px 2px 6px; margin-bottom:0;
+    }
+    tbody tr.group-row td.group-cell{ display:block; background:none; border:none; padding:0; }
+    tbody tr:not(.group-row){
       display:block; background:var(--surface); border:1px solid var(--line);
       border-radius:12px; box-shadow:var(--shadow); padding:12px 14px; margin-bottom:12px;
     }
@@ -201,13 +196,12 @@
       font-size:.7rem; text-transform:uppercase; letter-spacing:.04em;
       color:var(--ink-faint); font-weight:700; padding-top:.15em;
     }
-    .col-haus{ text-align:right; }
     .col-wohnung{ text-align:right; }
-    .col-mangel{ max-width:none; text-align:right; font-weight:500; }
-    .col-zustaendig{ max-width:none; flex-direction:column; align-items:stretch; text-align:left; }
-    .col-zustaendig .notiz{ text-align:left; }
-    .col-gemeldet{ text-align:right; }
-    .col-gemeldet .aufenthalt{ text-align:right; }
+    .col-mangel{ max-width:none; flex-direction:column; align-items:stretch; text-align:left; font-weight:500; }
+    .col-mangel .subline{ text-align:left; }
+    .col-zugewiesen{ max-width:none; flex-direction:column; align-items:stretch; text-align:left; }
+    .col-zugewiesen .subline{ text-align:left; }
+    .col-aufenthalt{ text-align:right; }
   }
 </style>
 </head>
@@ -232,44 +226,26 @@
   </header>
 
   <div class="toolbar">
-    <div class="chip-group" id="level-filters" role="group" aria-label="Nach Dringlichkeit filtern">
-      <button class="filter-chip" data-level="sofort" aria-pressed="false">Sofort</button>
-      <button class="filter-chip" data-level="woche" aria-pressed="false">Diese Woche</button>
-      <button class="filter-chip" data-level="monat" aria-pressed="false">Nächster Monat</button>
-      <button class="filter-chip" data-level="gelöst" aria-pressed="false">Gelöst/Erledigt</button>
-    </div>
     <select id="objekt-filter" aria-label="Nach Haus filtern">
       <option value="">Alle Häuser</option>
     </select>
     <div class="spacer"></div>
     <input type="search" id="search" placeholder="Suchen …" aria-label="Freitextsuche" />
-    <div class="mobile-sort">
-      <label for="mobile-sort-select">Sortieren</label>
-      <select id="mobile-sort-select">
-        <option value="gemeldetAm:-1">Gemeldet am (neueste zuerst)</option>
-        <option value="gemeldetAm:1">Gemeldet am (älteste zuerst)</option>
-        <option value="dringlichkeit:1">Dringlichkeit</option>
-        <option value="objekt:1">Haus (A–Z)</option>
-        <option value="offenTage:-1">Offen seit (am längsten zuerst)</option>
-        <option value="id:1">ID (A–Z)</option>
-      </select>
-    </div>
   </div>
 
-  <div class="count-row"><strong id="count">0</strong> von <strong id="count-total">0</strong> Mängeln angezeigt</div>
+  <div class="count-row"><strong id="count">0</strong> von <strong id="count-total">0</strong> Mängeln angezeigt, gruppiert nach Haus</div>
 
   <div class="table-scroll">
     <table id="tbl">
       <thead>
         <tr>
-          <th data-key="id">ID <span class="arrow">↕</span></th>
-          <th data-key="objekt">Haus <span class="arrow">↕</span></th>
-          <th data-key="wohnung">Wohnung <span class="arrow">↕</span></th>
-          <th data-key="offenTage">Offen seit (Tage) <span class="arrow">↕</span></th>
-          <th data-key="mangel">Mangel <span class="arrow">↕</span></th>
-          <th data-key="gemeldetVon">Gemeldet von <span class="arrow">↕</span></th>
-          <th data-key="gemeldetAm">Gemeldet am <span class="arrow">↕</span></th>
-          <th data-key="zustaendig">Status / Zuständig <span class="arrow">↕</span></th>
+          <th>ID</th>
+          <th>Wohnung</th>
+          <th>Mangel</th>
+          <th>Kategorie</th>
+          <th>Aufenthalt</th>
+          <th>Status</th>
+          <th>Zugewiesen an</th>
         </tr>
       </thead>
       <tbody id="tbody"></tbody>
@@ -316,977 +292,1059 @@ const DATEN = [
     "id": "DOMSCHLOSS_00",
     "objekt": "Domhof",
     "wohnung": "Dom Schloss",
+    "kategorie": "Defekt",
     "mangel": "Geschirrspüler defekt. Kostenvoranschlag: 400–420 € Reparatur oder 585 € Neugerät. Streit mit Vermieter, wer zahlt",
     "gemeldetVon": "A. (. S. F. Speidel-Elektro)",
+    "aufenthalt": "–",
     "gemeldetAm": "2026-06-26",
-    "dringlichkeit": "sofort",
-    "zustaendig": "Sven Fisch + Elektriker – seit 2 Monaten ungeklärt",
-    "notiz": "",
-    "offenTage": 89
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Sven Fisch + Elektriker – seit 2 Monaten ungeklärt"
   },
   {
     "id": "DOMSCHLOSS_01",
     "objekt": "Domhof",
     "wohnung": "Dom Schloss",
+    "kategorie": "Defekt",
     "mangel": "Kühlschrank defekt, inzwischen ausgetauscht (erledigt) – Rechnung/Kostenübernahme mit Vermieter Matthias Schur noch strittig",
     "gemeldetVon": "Andreas",
+    "aufenthalt": "–",
     "gemeldetAm": "2026-07-09",
-    "dringlichkeit": "gelöst",
-    "zustaendig": "Rechnungsstreit offen (Sven Fisch)",
-    "notiz": "",
-    "offenTage": null
+    "status": "Gelöst",
+    "zugewiesen": "Andreas",
+    "notiz": "Rechnungsstreit offen (Sven Fisch)"
   },
   {
     "id": "DOMSCHLOSS_02",
     "objekt": "Domhof",
     "wohnung": "Dom Schloss",
+    "kategorie": "Defekt",
     "mangel": "Gardinenstange aus der Wand gefallen, inkl. Dübel/Putz",
     "gemeldetVon": "A. (. S. Fisch)",
+    "aufenthalt": "–",
     "gemeldetAm": "2026-07-30",
-    "dringlichkeit": "woche",
-    "zustaendig": "Marcel/m.starke angefragt, noch offen",
-    "notiz": "",
-    "offenTage": 55
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Marcel/m.starke angefragt, noch offen"
   },
   {
     "id": "DOMSCHLOSS_03",
     "objekt": "Domhof",
     "wohnung": "Dom Schloss (Gittertor/Zugang)",
+    "kategorie": "Defekt",
     "mangel": "Schloss klemmt, Schlüssel geht nicht mehr rein – laut Smoobu-Verlauf schon seit Anfang Mai wiederkehrend (Workaround: Tür nur anlehnen), akut seit 10.08.",
     "gemeldetVon": "A. (. S. Fisch)",
+    "aufenthalt": "–",
     "gemeldetAm": "2026-08-11",
-    "dringlichkeit": "sofort",
-    "zustaendig": "Sven angefragt, noch offen",
-    "notiz": "",
-    "offenTage": 43
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Sven angefragt, noch offen"
   },
   {
     "id": "DOMHOF_00",
     "objekt": "Domhof",
     "wohnung": "? (oberste Wohnung, ungeklärt welche)",
+    "kategorie": "Defekt",
     "mangel": "Zustand des Fußbodens prüfen",
     "gemeldetVon": "A. (. S. Fisch)",
+    "aufenthalt": "–",
     "gemeldetAm": "2026-07-30",
-    "dringlichkeit": "woche",
-    "zustaendig": "Sven angefragt, noch offen",
-    "notiz": "",
-    "offenTage": 55
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Sven angefragt, noch offen"
   },
   {
     "id": "FEWO1_00",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 1",
+    "kategorie": "Defekt",
     "mangel": "Toilettenspülung defekt, Wasser läuft durch",
     "gemeldetVon": "G. C. Ellmerich",
+    "aufenthalt": "17.08.2026–23.08.2026",
     "gemeldetAm": "2026-08-20",
-    "dringlichkeit": "sofort",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 34
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO2_00",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "kategorie": "Fehlt",
     "mangel": "Deckenlampe Esszimmer/Küche: 1 Glühbirne defekt, 1 fehlt komplett",
     "gemeldetVon": "G. J. Springer",
+    "aufenthalt": "17.07.2026–19.07.2026",
     "gemeldetAm": "2026-07-18",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 67
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO2_01",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "kategorie": "Fehlt",
     "mangel": "Wandlampe über dem Sofa ohne Leuchtmittel",
     "gemeldetVon": "G. S. Tekath",
+    "aufenthalt": "22.05.2026–26.05.2026",
     "gemeldetAm": "2026-05-22",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen (alt, unklar ob erledigt)",
-    "notiz": "",
-    "offenTage": 124
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen (alt, unklar ob erledigt)"
   },
   {
     "id": "PETERMAENNCHEN_00",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "kategorie": "Defekt",
     "mangel": "Lampe im Bad über dem Spiegel kaputt",
     "gemeldetVon": "G. M. Petry",
+    "aufenthalt": "16.06.2026–18.06.2026",
     "gemeldetAm": "2026-06-17",
-    "dringlichkeit": "woche",
-    "zustaendig": "gelöst",
-    "notiz": "",
-    "offenTage": 98
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "gelöst"
   },
   {
     "id": "HIDDENSEE_00",
     "objekt": "Pension am Dom",
     "wohnung": "Hiddensee",
+    "kategorie": "Defekt",
     "mangel": "Starker Uringeruch, Zimmer nicht nutzbar – Buchung storniert & erstattet",
     "gemeldetVon": "G. G. Wiesner",
+    "aufenthalt": "26.07.2026–28.07.2026",
     "gemeldetAm": "2026-07-26",
-    "dringlichkeit": "sofort",
-    "zustaendig": "ungeklärt, ob seither behoben",
-    "notiz": "",
-    "offenTage": 59
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "ungeklärt, ob seither behoben"
   },
   {
     "id": "MECKLENBURG_00",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "kategorie": "Defekt",
     "mangel": "Kühlschrank kühlt nicht",
     "gemeldetVon": "G. F. Anett",
+    "aufenthalt": "08.08.2026–10.08.2026",
     "gemeldetAm": "2026-08-09",
-    "dringlichkeit": "sofort",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 45
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "MECKLENBURG_01",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "kategorie": "Defekt",
     "mangel": "Kühlschrank kühlt nicht und riecht unangenehm",
     "gemeldetVon": "G. F. Hafke",
+    "aufenthalt": "28.08.2026–30.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "sofort",
-    "zustaendig": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Jacqueline",
+    "notiz": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen"
   },
   {
     "id": "MECKLENBURG_02",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "kategorie": "Defekt",
     "mangel": "Geschirrspüler riecht unangenehm",
     "gemeldetVon": "G. F. Hafke",
+    "aufenthalt": "28.08.2026–30.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "woche",
-    "zustaendig": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Jacqueline",
+    "notiz": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen"
   },
   {
     "id": "MECKLENBURG_03",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "kategorie": "Fehlt",
     "mangel": "Wohnung sehr warm, kein Ventilator vorhanden",
     "gemeldetVon": "G. F. Hafke",
+    "aufenthalt": "28.08.2026–30.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "woche",
-    "zustaendig": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Jacqueline",
+    "notiz": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen"
   },
   {
     "id": "MECKLENBURG_04",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "kategorie": "Fehlt",
     "mangel": "Kein Toaster vorhanden",
     "gemeldetVon": "G. F. Hafke",
+    "aufenthalt": "28.08.2026–30.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "monat",
-    "zustaendig": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Jacqueline",
+    "notiz": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen"
   },
   {
     "id": "MECKLENBURG_05",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "kategorie": "Fehlt",
     "mangel": "Kein Gefrierfach vorhanden",
     "gemeldetVon": "G. F. Hafke",
+    "aufenthalt": "28.08.2026–30.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "monat",
-    "zustaendig": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Jacqueline",
+    "notiz": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen"
   },
   {
     "id": "MECKLENBURG_06",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "kategorie": "Defekt",
     "mangel": "Waschbecken läuft nicht richtig ab",
     "gemeldetVon": "G. F. Hafke",
+    "aufenthalt": "28.08.2026–30.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "woche",
-    "zustaendig": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Jacqueline",
+    "notiz": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen"
   },
   {
     "id": "MECKLENBURG_07",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "kategorie": "Verbesserung",
     "mangel": "Sanitärbereich insgesamt überholungsbedürftig",
     "gemeldetVon": "G. F. Hafke",
+    "aufenthalt": "28.08.2026–30.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "monat",
-    "zustaendig": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Jacqueline",
+    "notiz": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen"
   },
   {
     "id": "STRELITZ_00",
     "objekt": "Pension am Dom",
     "wohnung": "Strelitz",
+    "kategorie": "Fehlt",
     "mangel": "Küchenspüle ohne fließend Wasser",
     "gemeldetVon": "G. A. Hill",
+    "aufenthalt": "28.08.2026–30.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "sofort",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "STRELITZ_01",
     "objekt": "Pension am Dom",
     "wohnung": "Strelitz",
+    "kategorie": "Defekt",
     "mangel": "Glühbirne Küchenbeleuchtung defekt",
     "gemeldetVon": "G. A. Hill",
+    "aufenthalt": "28.08.2026–30.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "STRELITZ_02",
     "objekt": "Pension am Dom",
     "wohnung": "Strelitz",
+    "kategorie": "Defekt",
     "mangel": "Betten knarzen bei jeder Bewegung, Matratzen durchgelegen",
     "gemeldetVon": "G. A. Hill",
+    "aufenthalt": "28.08.2026–30.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "USEDOM_00",
     "objekt": "Pension am Dom",
     "wohnung": "Usedom",
+    "kategorie": "Defekt",
     "mangel": "Bett quietscht bei jeder kleinen Bewegung",
     "gemeldetVon": "G. S. Eckert",
+    "aufenthalt": "29.08.2026–31.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "USEDOM_01",
     "objekt": "Pension am Dom",
     "wohnung": "Usedom",
+    "kategorie": "Fehlt",
     "mangel": "Fernseher geht nicht, kein TV-Empfang",
     "gemeldetVon": "G. S. Eckert",
+    "aufenthalt": "29.08.2026–31.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "USEDOM_02",
     "objekt": "Pension am Dom",
     "wohnung": "Usedom",
+    "kategorie": "Defekt",
     "mangel": "Kühlschrank lässt sich nur öffnen, wenn beide Fronttüren auf sind",
     "gemeldetVon": "G. S. Eckert",
+    "aufenthalt": "29.08.2026–31.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "USEDOM_03",
     "objekt": "Pension am Dom",
     "wohnung": "Usedom",
+    "kategorie": "Defekt",
     "mangel": "Bettbezug an der oberen Kante aufgerissen",
     "gemeldetVon": "G. S. Eckert",
+    "aufenthalt": "29.08.2026–31.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "USEDOM_04",
     "objekt": "Pension am Dom",
     "wohnung": "Usedom",
+    "kategorie": "Defekt",
     "mangel": "Duschwasser läuft nicht richtig ab",
     "gemeldetVon": "G. S. Eckert",
+    "aufenthalt": "29.08.2026–31.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "sofort",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "USEDOM_05",
     "objekt": "Pension am Dom",
     "wohnung": "Usedom",
+    "kategorie": "Fehlt",
     "mangel": "Kein Brotmesser vorhanden",
     "gemeldetVon": "G. S. Eckert",
+    "aufenthalt": "29.08.2026–31.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "USEDOM_06",
     "objekt": "Pension am Dom",
     "wohnung": "Usedom",
+    "kategorie": "Defekt",
     "mangel": "Küchenschwamm sehr abgenutzt",
     "gemeldetVon": "G. S. Eckert",
+    "aufenthalt": "29.08.2026–31.08.2026",
     "gemeldetAm": "2026-08-30",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 24
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FRANZ_00",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "kategorie": "Defekt",
     "mangel": "Spülkasten Toilette braucht sehr lange zum Füllen",
     "gemeldetVon": "G. T. Sänger",
+    "aufenthalt": "23.08.2026–27.08.2026",
     "gemeldetAm": "2026-08-24",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 30
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FRIEDRICH_00",
     "objekt": "Warnemünde",
     "wohnung": "Friedrich",
+    "kategorie": "Defekt",
     "mangel": "Gartensessel: Gestell und Polster kaputt",
     "gemeldetVon": "G. S. &. Frank",
+    "aufenthalt": "–",
     "gemeldetAm": "2026-08-02",
-    "dringlichkeit": "gelöst",
-    "zustaendig": "Andreas – erledigt am 03.08.2026",
-    "notiz": "",
-    "offenTage": null
+    "status": "Gelöst",
+    "zugewiesen": "Andreas",
+    "notiz": "Andreas – erledigt am 03.08.2026"
   },
   {
     "id": "FEWO1_01",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 1",
+    "kategorie": "Defekt",
     "mangel": "Schlüsselkasten beim Checkout für Gast unklar, Schlüssel im Zimmertür stecken gelassen",
     "gemeldetVon": "G. C. Jeromin",
+    "aufenthalt": "27.08.2026–31.08.2026",
     "gemeldetAm": "2026-08-31",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen – evtl. Anleitung verbessern",
-    "notiz": "",
-    "offenTage": 23
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen – evtl. Anleitung verbessern"
   },
   {
     "id": "FEWO3_00",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 3",
+    "kategorie": "Defekt",
     "mangel": "Duschvorhang-Halterung defekt",
     "gemeldetVon": "G. B. Kauert",
+    "aufenthalt": "05.08.2026–12.08.2026",
     "gemeldetAm": "2026-08-13",
-    "dringlichkeit": "woche",
-    "zustaendig": "Andreas hat Prüfung/Reparatur zugesagt, noch offen",
-    "notiz": "",
-    "offenTage": 41
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Andreas hat Prüfung/Reparatur zugesagt, noch offen"
   },
   {
     "id": "STRELITZ_03",
     "objekt": "Pension am Dom",
     "wohnung": "Strelitz",
+    "kategorie": "Defekt",
     "mangel": "Bett quietscht stark bei jeder Bewegung",
     "gemeldetVon": "G. L. Schumacher",
+    "aufenthalt": "05.06.2026–07.06.2026",
     "gemeldetAm": "2026-06-08",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen (alt, unklar ob erledigt)",
-    "notiz": "",
-    "offenTage": 107
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen (alt, unklar ob erledigt)"
   },
   {
     "id": "FRANZ_01",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "kategorie": "Fehlt",
     "mangel": "Türdämpfer an der Wand kaputt oder fehlt",
     "gemeldetVon": "G. T. Nehls",
+    "aufenthalt": "15.05.2026–18.05.2026",
     "gemeldetAm": "2026-05-21",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen (alt, unklar ob erledigt)",
-    "notiz": "",
-    "offenTage": 125
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen (alt, unklar ob erledigt)"
   },
   {
     "id": "FRANZ_02",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "kategorie": "Verbesserung",
     "mangel": "Halter der Duschbrause: möglicher Schwarzschimmel, sollte geprüft werden",
     "gemeldetVon": "G. T. Nehls",
+    "aufenthalt": "15.05.2026–18.05.2026",
     "gemeldetAm": "2026-05-21",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen (alt, unklar ob erledigt)",
-    "notiz": "",
-    "offenTage": 125
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen (alt, unklar ob erledigt)"
   },
   {
     "id": "FRANZ_03",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "kategorie": "Defekt",
     "mangel": "Schwarzfleckiges Silikon um das Waschbecken",
     "gemeldetVon": "G. T. Nehls",
+    "aufenthalt": "15.05.2026–18.05.2026",
     "gemeldetAm": "2026-05-21",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen (alt, unklar ob erledigt)",
-    "notiz": "",
-    "offenTage": 125
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen (alt, unklar ob erledigt)"
   },
   {
     "id": "FRANZ_04",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "kategorie": "Defekt",
     "mangel": "Vorhänge fleckig, teils ausgerissene Gardinenhaken",
     "gemeldetVon": "G. T. Nehls",
+    "aufenthalt": "15.05.2026–18.05.2026",
     "gemeldetAm": "2026-05-21",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen (alt, unklar ob erledigt)",
-    "notiz": "",
-    "offenTage": 125
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen (alt, unklar ob erledigt)"
   },
   {
     "id": "FEWO2_02",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "kategorie": "Defekt",
     "mangel": "Bad: wiederholt stehendes Wasser auf dem Boden und Feuchtigkeit in den Fugen, seit Mai bei mehreren Gästen gemeldet – eine Gästin mit Schimmelallergie hatte Atemnot",
     "gemeldetVon": "G. C. G. (u.a.)",
+    "aufenthalt": "30.04.2026–03.05.2026",
     "gemeldetAm": "2026-05-01",
-    "dringlichkeit": "sofort",
-    "zustaendig": "Seit Monaten wiederkehrend, nicht dauerhaft behoben",
-    "notiz": "",
-    "offenTage": 145
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Seit Monaten wiederkehrend, nicht dauerhaft behoben"
   },
   {
     "id": "PETERMAENNCHEN_01",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "kategorie": "Defekt",
     "mangel": "Gardinen/Vorhänge-Aufhängungen im Schlafzimmer kaputt, hängen durch",
     "gemeldetVon": "G. O. Vogt",
+    "aufenthalt": "28.08.2026–03.09.2026",
     "gemeldetAm": "2026-08-29",
-    "dringlichkeit": "woche",
-    "zustaendig": "Andreas hat Prüfung nach Auszug zugesagt, noch offen",
-    "notiz": "",
-    "offenTage": 25
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Andreas hat Prüfung nach Auszug zugesagt, noch offen"
   },
   {
     "id": "PETERMAENNCHEN_02",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "kategorie": "Defekt",
     "mangel": "Fliese in der Dusche gerissen, Fugen an einigen Stellen schwarz",
     "gemeldetVon": "G. O. Vogt",
+    "aufenthalt": "28.08.2026–03.09.2026",
     "gemeldetAm": "2026-08-29",
-    "dringlichkeit": "woche",
-    "zustaendig": "Andreas hat Prüfung nach Auszug zugesagt, noch offen",
-    "notiz": "",
-    "offenTage": 25
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Andreas hat Prüfung nach Auszug zugesagt, noch offen"
   },
   {
     "id": "PETERMAENNCHEN_03",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "kategorie": "Fehlt",
     "mangel": "Waschbecken im Bad ohne Verschluss/Stöpsel",
     "gemeldetVon": "G. O. Vogt",
+    "aufenthalt": "28.08.2026–03.09.2026",
     "gemeldetAm": "2026-08-29",
-    "dringlichkeit": "monat",
-    "zustaendig": "Andreas hat Prüfung zugesagt, noch offen",
-    "notiz": "",
-    "offenTage": 25
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Andreas hat Prüfung zugesagt, noch offen"
   },
   {
     "id": "PETERMAENNCHEN_04",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "kategorie": "Defekt",
     "mangel": "Deckenlampe Bad: Birne fast durchgebrannt, kaum noch Licht",
     "gemeldetVon": "G. O. Vogt",
+    "aufenthalt": "28.08.2026–03.09.2026",
     "gemeldetAm": "2026-08-29",
-    "dringlichkeit": "woche",
-    "zustaendig": "Andreas hat Prüfung zugesagt, noch offen",
-    "notiz": "",
-    "offenTage": 25
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Andreas hat Prüfung zugesagt, noch offen"
   },
   {
     "id": "PETERMAENNCHEN_05",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "kategorie": "Defekt",
     "mangel": "Spülmaschine defekt",
     "gemeldetVon": "G. O. Vogt",
+    "aufenthalt": "28.08.2026–03.09.2026",
     "gemeldetAm": "2026-08-29",
-    "dringlichkeit": "sofort",
-    "zustaendig": "Andreas bestätigt defekt, kümmert sich \"schnellstmöglich\", noch offen",
-    "notiz": "",
-    "offenTage": 25
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Andreas bestätigt defekt, kümmert sich \"schnellstmöglich\", noch offen"
   },
   {
     "id": "PETERMAENNCHEN_06",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "kategorie": "Fehlt",
     "mangel": "Schere und kleines Messer fehlen",
     "gemeldetVon": "G. O. Vogt",
+    "aufenthalt": "28.08.2026–03.09.2026",
     "gemeldetAm": "2026-08-29",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 25
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO5_00",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 5",
+    "kategorie": "Defekt",
     "mangel": "TV und WLAN funktionieren nicht, evtl. wegen Bauarbeiten/Graben vor dem Haus",
     "gemeldetVon": "G. G. Schulz",
+    "aufenthalt": "19.08.2026–24.08.2026",
     "gemeldetAm": "2026-08-20",
-    "dringlichkeit": "sofort",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 34
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO5_01",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 5",
+    "kategorie": "Defekt",
     "mangel": "Licht in der Diele geht nicht",
     "gemeldetVon": "G. G. Schulz",
+    "aufenthalt": "19.08.2026–24.08.2026",
     "gemeldetAm": "2026-08-20",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 34
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO5_02",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 5",
+    "kategorie": "Defekt",
     "mangel": "Vorhang Schlafzimmer hält Licht nicht ausreichend ab",
     "gemeldetVon": "G. G. Schulz",
+    "aufenthalt": "19.08.2026–24.08.2026",
     "gemeldetAm": "2026-08-24",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 30
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO5_03",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 5",
+    "kategorie": "Verbesserung",
     "mangel": "Dichtleisten der Duschtüren abgenutzt, sollten ausgetauscht werden",
     "gemeldetVon": "G. G. Schulz",
+    "aufenthalt": "19.08.2026–24.08.2026",
     "gemeldetAm": "2026-08-24",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 30
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO5_04",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 5",
+    "kategorie": "Defekt",
     "mangel": "Kühlschranktür wackelig",
     "gemeldetVon": "G. G. Schulz",
+    "aufenthalt": "19.08.2026–24.08.2026",
     "gemeldetAm": "2026-08-24",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 30
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "MECKLENBURG_08",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "kategorie": "Defekt",
     "mangel": "Türklinke lässt sich nur schwer schließen",
     "gemeldetVon": "G. P. Doerner",
+    "aufenthalt": "21.08.2026–23.08.2026",
     "gemeldetAm": "2026-08-22",
-    "dringlichkeit": "woche",
-    "zustaendig": "Andreas hat sich entschuldigt, noch offen",
-    "notiz": "",
-    "offenTage": 32
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Andreas hat sich entschuldigt, noch offen"
   },
   {
     "id": "MECKLENBURG_09",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "kategorie": "Defekt",
     "mangel": "Türgriffe (Küche) locker",
     "gemeldetVon": "G. P. Doerner",
+    "aufenthalt": "21.08.2026–23.08.2026",
     "gemeldetAm": "2026-08-22",
-    "dringlichkeit": "woche",
-    "zustaendig": "Andreas hat sich entschuldigt, noch offen",
-    "notiz": "",
-    "offenTage": 32
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Andreas hat sich entschuldigt, noch offen"
   },
   {
     "id": "MECKLENBURG_10",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "kategorie": "Defekt",
     "mangel": "Rollo nicht mehr nutzbar",
     "gemeldetVon": "G. P. Doerner",
+    "aufenthalt": "21.08.2026–23.08.2026",
     "gemeldetAm": "2026-08-22",
-    "dringlichkeit": "woche",
-    "zustaendig": "Andreas hat sich entschuldigt, noch offen",
-    "notiz": "",
-    "offenTage": 32
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Andreas hat sich entschuldigt, noch offen"
   },
   {
     "id": "FEWO4_00",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "kategorie": "Defekt",
     "mangel": "Lüftung im Bad verschmutzt und laut",
     "gemeldetVon": "G. S. Knappe",
+    "aufenthalt": "18.08.2026–21.08.2026",
     "gemeldetAm": "2026-08-19",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 35
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO4_01",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "kategorie": "Fehlt",
     "mangel": "TV nur öffentlich-rechtliche Sender, keine privaten/HD-Sender",
     "gemeldetVon": "G. S. Knappe",
+    "aufenthalt": "18.08.2026–21.08.2026",
     "gemeldetAm": "2026-08-19",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 35
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO4_02",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "kategorie": "Fehlt",
     "mangel": "Kein WLAN",
     "gemeldetVon": "G. S. Knappe",
+    "aufenthalt": "18.08.2026–21.08.2026",
     "gemeldetAm": "2026-08-19",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 35
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO4_03",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "kategorie": "Defekt",
     "mangel": "Licht im Eingang flackert",
     "gemeldetVon": "G. S. Knappe",
+    "aufenthalt": "18.08.2026–21.08.2026",
     "gemeldetAm": "2026-08-19",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 35
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO4_04",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "kategorie": "Fehlt",
     "mangel": "Duscharmatur: Drucknöpfe fehlen, scharfkantige Abplatzungen – Schnittgefahr, v. a. für Kinder",
     "gemeldetVon": "G. I. Stebner",
+    "aufenthalt": "27.07.2026–31.07.2026",
     "gemeldetAm": "2026-08-08",
-    "dringlichkeit": "sofort",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 46
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO4_05",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "kategorie": "Defekt",
     "mangel": "Duschkopf: schwarzer Schimmel",
     "gemeldetVon": "G. I. Stebner",
+    "aufenthalt": "27.07.2026–31.07.2026",
     "gemeldetAm": "2026-08-08",
-    "dringlichkeit": "sofort",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 46
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO4_06",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "kategorie": "Fehlt",
     "mangel": "Duschvorhang: fehlende Beschwerung, klebt an der Haut",
     "gemeldetVon": "G. I. Stebner",
+    "aufenthalt": "27.07.2026–31.07.2026",
     "gemeldetAm": "2026-08-08",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 46
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO4_07",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "kategorie": "Fehlt",
     "mangel": "Kein WLAN, Router zeigt rotes Licht",
     "gemeldetVon": "G. K. Sparbrod",
+    "aufenthalt": "03.08.2026–05.08.2026",
     "gemeldetAm": "2026-08-03",
-    "dringlichkeit": "sofort",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 51
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "DOMSCHLOSS_04",
     "objekt": "Domhof",
     "wohnung": "Dom Schloss",
+    "kategorie": "Defekt",
     "mangel": "Holzliegestuhl mit grüner Auflage kaputt",
     "gemeldetVon": "G. A. Doepmann",
+    "aufenthalt": "26.06.2026–28.06.2026",
     "gemeldetAm": "2026-06-27",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 88
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO3_01",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 3",
+    "kategorie": "Defekt",
     "mangel": "Schlüssel zur Wohnung defekt",
     "gemeldetVon": "G. M. Cavalli",
+    "aufenthalt": "18.06.2026–21.06.2026",
     "gemeldetAm": "2026-06-22",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 93
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "DOMSCHLOSS_05",
     "objekt": "Domhof",
     "wohnung": "Dom Schloss",
+    "kategorie": "Defekt",
     "mangel": "Lichterkette am Kinderbett abgerissen (Gardinenstange kam beim Schließen runter)",
     "gemeldetVon": "G. C. Leister",
+    "aufenthalt": "22.05.2026–25.05.2026",
     "gemeldetAm": "2026-05-25",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 121
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "STRELITZ_04",
     "objekt": "Pension am Dom",
     "wohnung": "Strelitz",
+    "kategorie": "Defekt",
     "mangel": "Kühlschrank-Innenraum leicht schimmelig",
     "gemeldetVon": "G. J. Mausch",
+    "aufenthalt": "14.05.2026–17.05.2026",
     "gemeldetAm": "2026-05-15",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 131
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "PETERMAENNCHEN_07",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "kategorie": "Defekt",
     "mangel": "Küchentür lässt sich nicht schließen",
     "gemeldetVon": "G. A. Krebs",
+    "aufenthalt": "09.05.2026–11.05.2026",
     "gemeldetAm": "2026-05-10",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 136
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "PETERMAENNCHEN_08",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "kategorie": "Fehlt",
     "mangel": "Kein Sichtschutz (Plissee) im Bad zu den Nachbarn",
     "gemeldetVon": "G. A. Krebs",
+    "aufenthalt": "09.05.2026–11.05.2026",
     "gemeldetAm": "2026-05-10",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 136
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "PETERMAENNCHEN_09",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "kategorie": "Fehlt",
     "mangel": "Fernseher zeigt nur öffentlich-rechtliche Sender, kein Smart-TV – Gast wünscht sich Anschaffung eines Smart-TVs",
     "gemeldetVon": "G. O. Vogt",
+    "aufenthalt": "28.08.2026–03.09.2026",
     "gemeldetAm": "2026-08-29",
-    "dringlichkeit": "monat",
-    "zustaendig": "Andreas hat den Hinweis aufgenommen, noch offen",
-    "notiz": "",
-    "offenTage": 25
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Andreas hat den Hinweis aufgenommen, noch offen"
   },
   {
     "id": "FEWO2_03",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "kategorie": "Defekt",
     "mangel": "Wasserkocher leckt, Gast weist auf Verbrühungsgefahr hin und rät zum Austausch",
     "gemeldetVon": "G. H. L. M. Lichteveld",
+    "aufenthalt": "02.09.2026–04.09.2026",
     "gemeldetAm": "2026-09-04",
-    "dringlichkeit": "sofort",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 19
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FRANZ_05",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "kategorie": "Defekt",
     "mangel": "Heizung/Fußbodenheizung springt nicht an, Wohnung bleibt kalt – laut Andreas' Antwort schaltet sich die Anlage erst nach ca. 24h unter einem Außentemperatur-Schwellenwert ein, Fußbodenheizung reagiert zusätzlich träge",
     "gemeldetVon": "G. K. J. (. n. i. S. s. n. A. A. darauf)",
+    "aufenthalt": "04.09.2026–06.09.2026",
     "gemeldetAm": "2026-09-04",
-    "dringlichkeit": "sofort",
-    "zustaendig": "Andreas hat mit Eigentümer gesprochen, heute keine Besserung zu erwarten, Preisnachlass bei Bedarf angeboten – noch offen",
-    "notiz": "",
-    "offenTage": 19
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Andreas hat mit Eigentümer gesprochen, heute keine Besserung zu erwarten, Preisnachlass bei Bedarf angeboten – noch offen"
   },
   {
     "id": "FRANZ_06",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "kategorie": "Defekt",
     "mangel": "Plissee im Wohnzimmer zerrissen",
     "gemeldetVon": "G. K. Jäkel",
+    "aufenthalt": "04.09.2026–06.09.2026",
     "gemeldetAm": "2026-09-04",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 19
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FRANZ_07",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "kategorie": "Defekt",
     "mangel": "Sitzmöbel im Wohnzimmer zu tief zum Sitzen, für Gästin nach Knie-OP kaum nutzbar",
     "gemeldetVon": "G. K. Jäkel",
+    "aufenthalt": "04.09.2026–06.09.2026",
     "gemeldetAm": "2026-09-04",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 19
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO2_04",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "kategorie": "Verbesserung",
     "mangel": "Zu wenig Stühle/Hocker am Esstisch, Gast bittet um 2 zusätzliche",
     "gemeldetVon": "G. C. d. J. (. Sietze)",
+    "aufenthalt": "06.09.2026–09.09.2026",
     "gemeldetAm": "2026-09-06",
-    "dringlichkeit": "monat",
-    "zustaendig": "Antwort im Thread erhalten (\"gern geschehen\"), ob Stühle geliefert wurden nicht ersichtlich – offen",
-    "notiz": "",
-    "offenTage": 17
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Antwort im Thread erhalten (\"gern geschehen\"), ob Stühle geliefert wurden nicht ersichtlich – offen"
   },
   {
     "id": "FRANZ_08",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "kategorie": "Fehlt",
     "mangel": "Keine Nachttische im Schlafzimmer vorhanden, Gast wünscht sich welche",
     "gemeldetVon": "G. P. Greßmann",
+    "aufenthalt": "07.09.2026–10.09.2026",
     "gemeldetAm": "2026-09-08",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 15
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FRANZ_09",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "kategorie": "Fehlt",
     "mangel": "Keine Plissees an den Fenstern in Schlafzimmer und Bad (nur Vorhänge), Gast wünscht sich Plissees für tagsüber",
     "gemeldetVon": "G. P. Greßmann",
+    "aufenthalt": "07.09.2026–10.09.2026",
     "gemeldetAm": "2026-09-08",
-    "dringlichkeit": "monat",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 15
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO2_05",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "kategorie": "Defekt",
     "mangel": "Wohnungsschlüssel abgebrochen, ein Teil steckt im Schloss im Eingangsbereich – Ersatzschlüssel nötig, Wohnung sonst nicht verlassbar",
     "gemeldetVon": "G. O. Kucher",
+    "aufenthalt": "?",
     "gemeldetAm": "2026-09-10",
-    "dringlichkeit": "gelöst",
-    "zustaendig": "Gast bestätigt am 11.09.2026 im Smoobu-Thread \"bei uns ist alles in Ordnung, vielen Dank für Ihre Fürsorge\"",
-    "notiz": "",
-    "offenTage": null
+    "status": "Gelöst",
+    "zugewiesen": "Andreas",
+    "notiz": "Gast bestätigt am 11.09.2026 im Smoobu-Thread \"bei uns ist alles in Ordnung, vielen Dank für Ihre Fürsorge\""
   },
   {
     "id": "MECKLENBURG_11",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "kategorie": "Verbesserung",
     "mangel": "Geschirr aus dem Schrank teilweise verschmutzt und klebrig; Gast vermutet, der Geschirrspüler reinigt nicht richtig, bittet um Prüfung von Gerät bzw. Filter/Ablauf",
     "gemeldetVon": "G. K. Appel",
+    "aufenthalt": "11.09.2026–13.09.2026",
     "gemeldetAm": "2026-09-12",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 11
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO2_06",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "kategorie": "Fehlt",
     "mangel": "Fernseher lässt sich nicht einstellen, Gast bekommt kein Bild (\"bekommen es leider nicht hin\") und fragt, ob das Gerät gar nicht geht – ungeklärt, ob Bedienungsproblem oder Defekt",
     "gemeldetVon": "G. M. Dick",
+    "aufenthalt": "12.09.2026–15.09.2026",
     "gemeldetAm": "2026-09-12",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 11
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "STRELITZ_05",
     "objekt": "Pension am Dom",
     "wohnung": "Strelitz",
+    "kategorie": "Fehlt",
     "mangel": "Laut Inserat kostenlose Toilettenartikel (Duschgel, Shampoo, Conditioner) angekündigt, im Apartment aber keine vorhanden; Gast bittet während des laufenden Aufenthalts um Bereitstellung",
     "gemeldetVon": "G. R. Mello",
+    "aufenthalt": "14.09.2026–16.09.2026",
     "gemeldetAm": "2026-09-14",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 9
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO2_07",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "kategorie": "Defekt",
     "mangel": "Kühlschrank: Tür zum Eisfach defekt",
     "gemeldetVon": "G. R. Simon",
+    "aufenthalt": "22.09.2026–25.09.2026",
     "gemeldetAm": "2026-09-23",
-    "dringlichkeit": "woche",
-    "zustaendig": "offen",
-    "notiz": "",
-    "offenTage": 0
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "offen"
   },
   {
     "id": "FEWO2_08",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "kategorie": "Defekt",
     "mangel": "Badtür quietscht stark, Duschvorhang am unteren Rand mit Schimmelflecken, Bodenfliesen im Bad stark verkalkt",
     "gemeldetVon": "G. P. Kluck",
+    "aufenthalt": "17.09.2026–21.09.2026",
     "gemeldetAm": "2026-09-20",
-    "dringlichkeit": "woche",
-    "zustaendig": "Andreas hat Prüfung zugesagt, noch offen",
-    "notiz": "",
-    "offenTage": 3
+    "status": "Offen",
+    "zugewiesen": "Andreas",
+    "notiz": "Andreas hat Prüfung zugesagt, noch offen"
   },
   {
     "id": "VORPOMMERN_00",
     "objekt": "Pension am Dom",
     "wohnung": "Vorpommern",
+    "kategorie": "Defekt",
     "mangel": "Wasserhahn am Waschbecken sehr schwergängig, Strahl nicht kontrollierbar; Verbindungstür zwischen zwei Räumen quietscht laut, stört nachts",
     "gemeldetVon": "G. S. Helga",
+    "aufenthalt": "12.09.2026–16.09.2026",
     "gemeldetAm": "2026-09-15",
-    "dringlichkeit": "woche",
-    "zustaendig": "Andreas/Jacqueline haben Prüfung zugesagt, noch offen",
-    "notiz": "",
-    "offenTage": 8
+    "status": "Offen",
+    "zugewiesen": "Jacqueline",
+    "notiz": "Andreas/Jacqueline haben Prüfung zugesagt, noch offen"
   }
 ];
 
-const LEVEL_LABEL = {sofort:"Sofort", woche:"Diese Woche", monat:"Nächster Monat", "gelöst":"Gelöst"};
+const KATEGORIE_KLASSE = {"Defekt":"defekt", "Fehlt":"fehlt", "Verbesserung":"verbesserung"};
+const STATUS_KLASSE = {"Offen":"offen", "Gelöst":"geloest"};
 
 function fmtDate(iso){
   const p = iso.split("-");
@@ -1296,11 +1354,8 @@ function esc(s){
   return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
-let activeLevels = new Set();
 let objektFilter = "";
 let searchTerm = "";
-let sortKey = "gemeldetAm";
-let sortDir = -1;
 
 function populateObjektFilter(){
   const sel = document.getElementById("objekt-filter");
@@ -1313,85 +1368,53 @@ function populateObjektFilter(){
 }
 
 function rowMatches(d){
-  if(activeLevels.size && !activeLevels.has(d.dringlichkeit)) return false;
   if(objektFilter && d.objekt !== objektFilter) return false;
   if(searchTerm){
-    const hay = (d.id + " " + d.objekt + " " + d.wohnung + " " + d.mangel + " " + d.gemeldetVon + " " + d.zustaendig).toLowerCase();
+    const hay = (d.id + " " + d.objekt + " " + d.wohnung + " " + d.mangel + " " + d.kategorie + " " + d.status + " " + d.zugewiesen + " " + d.notiz).toLowerCase();
     if(!hay.includes(searchTerm)) return false;
   }
   return true;
 }
 
-function sortData(list){
-  return list.slice().sort((a, b) => {
-    let av = a[sortKey], bv = b[sortKey];
-    if(sortKey === "dringlichkeit"){
-      const order = {sofort:0, woche:1, monat:2, "gelöst":3};
-      av = order[av]; bv = order[bv];
-    }
-    if(sortKey === "offenTage"){
-      if(av === null && bv === null) return 0;
-      if(av === null) return 1;
-      if(bv === null) return -1;
-    }
-    if(av < bv) return -1 * sortDir;
-    if(av > bv) return 1 * sortDir;
-    return 0;
-  });
-}
-
 function rowHTML(d){
+  const kKlasse = KATEGORIE_KLASSE[d.kategorie] || "defekt";
+  const sKlasse = STATUS_KLASSE[d.status] || "offen";
+  const seitZeile = d.status === "Offen"
+    ? '<span class="subline">offen seit ' + fmtDate(d.gemeldetAm) + '</span>'
+    : '<span class="subline">gemeldet ' + fmtDate(d.gemeldetAm) + '</span>';
   return '<tr>' +
     '<td class="col-id" data-label="ID">' + esc(d.id) + '</td>' +
-    '<td class="col-haus" data-label="Haus">' + esc(d.objekt) + '</td>' +
     '<td class="col-wohnung" data-label="Wohnung">' + esc(d.wohnung) + '</td>' +
-    '<td class="col-tage" data-label="Offen seit (Tage)">' + (d.offenTage === null || d.offenTage === undefined ? '–' : d.offenTage) + '</td>' +
-    '<td class="col-mangel" data-label="Mangel">' + esc(d.mangel) + '</td>' +
-    '<td class="col-gemeldet" data-label="Gemeldet von">' + esc(d.gemeldetVon) + '</td>' +
-    '<td class="col-datum" data-label="Gemeldet am">' + fmtDate(d.gemeldetAm) + '</td>' +
-    '<td class="col-zustaendig" data-label="Status / Zuständig">' + esc(d.zustaendig) + '</td>' +
+    '<td class="col-mangel" data-label="Mangel">' + esc(d.mangel) + seitZeile + '</td>' +
+    '<td class="col-kategorie" data-label="Kategorie"><span class="tag tag-' + kKlasse + '">' + esc(d.kategorie) + '</span></td>' +
+    '<td class="col-aufenthalt" data-label="Aufenthalt">' + esc(d.aufenthalt) + '</td>' +
+    '<td class="col-status" data-label="Status"><span class="tag tag-' + sKlasse + '">' + esc(d.status) + '</span></td>' +
+    '<td class="col-zugewiesen" data-label="Zugewiesen an">' + esc(d.zugewiesen) + (d.notiz ? '<span class="subline">' + esc(d.notiz) + '</span>' : '') + '</td>' +
     '</tr>';
 }
 
+function groupHeaderHTML(objekt, anzahl){
+  return '<tr class="group-row"><td class="group-cell" colspan="7">' + esc(objekt) + ' <span class="group-count">(' + anzahl + ')</span></td></tr>';
+}
+
 function render(){
-  const filtered = sortData(DATEN.filter(rowMatches));
-  document.getElementById("tbody").innerHTML = filtered.map(rowHTML).join("");
+  const filtered = DATEN.filter(rowMatches);
+  const objekte = [...new Set(filtered.map(d => d.objekt))].sort((a,b) => a.localeCompare(b, "de"));
+  let html = "";
+  objekte.forEach(objekt => {
+    const zeilen = filtered
+      .filter(d => d.objekt === objekt)
+      .sort((a,b) => a.wohnung.localeCompare(b.wohnung, "de") || a.id.localeCompare(b.id, "de"));
+    html += groupHeaderHTML(objekt, zeilen.length) + zeilen.map(rowHTML).join("");
+  });
+  document.getElementById("tbody").innerHTML = html;
   document.getElementById("count").textContent = filtered.length;
   document.getElementById("count-total").textContent = DATEN.length;
   document.getElementById("empty-msg").hidden = filtered.length > 0;
-  document.querySelectorAll("thead th[data-key]").forEach(th => {
-    th.setAttribute("aria-sort", th.dataset.key === sortKey ? (sortDir === 1 ? "ascending" : "descending") : "none");
-  });
 }
 
-document.querySelectorAll(".filter-chip").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const lvl = btn.dataset.level;
-    if(activeLevels.has(lvl)){ activeLevels.delete(lvl); btn.setAttribute("aria-pressed", "false"); }
-    else { activeLevels.add(lvl); btn.setAttribute("aria-pressed", "true"); }
-    render();
-  });
-});
 document.getElementById("objekt-filter").addEventListener("change", e => { objektFilter = e.target.value; render(); });
 document.getElementById("search").addEventListener("input", e => { searchTerm = e.target.value.toLowerCase(); render(); });
-document.querySelectorAll("thead th[data-key]").forEach(th => {
-  th.addEventListener("click", () => {
-    const key = th.dataset.key;
-    if(sortKey === key){ sortDir *= -1; } else { sortKey = key; sortDir = 1; }
-    syncMobileSort();
-    render();
-  });
-});
-document.getElementById("mobile-sort-select").addEventListener("change", e => {
-  const [key, dir] = e.target.value.split(":");
-  sortKey = key; sortDir = Number(dir);
-  render();
-});
-function syncMobileSort(){
-  const sel = document.getElementById("mobile-sort-select");
-  const match = [...sel.options].find(o => o.value === sortKey + ":" + sortDir);
-  if(match) sel.value = match.value;
-}
 
 populateObjektFilter();
 render();
