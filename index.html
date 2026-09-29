@@ -29,6 +29,11 @@
     --offen-bg:#DCEEEF;
     --geloest:#63736F;
     --geloest-bg:#EEF1F0;
+    --kueche:#C2410C; --kueche-bg:#FCEEE4;
+    --bad:#1D4ED8; --bad-bg:#E4EBFB;
+    --technik:#7C3AED; --technik-bg:#F1E9FE;
+    --moebel:#BE185D; --moebel-bg:#FCE4EF;
+    --gebaeude:#475569; --gebaeude-bg:#E7ECF0;
     --shadow: 0 1px 2px rgba(21,38,37,.06), 0 6px 16px -8px rgba(21,38,37,.18);
     color-scheme: light;
   }
@@ -43,6 +48,11 @@
       --verbesserung:#7FD09A; --verbesserung-bg:#1B3324;
       --offen:#7FE0DF; --offen-bg:#123638;
       --geloest:#8FA19D; --geloest-bg:#20302C;
+      --kueche:#FF9F5A; --kueche-bg:#3A2414;
+      --bad:#7FA8FF; --bad-bg:#1B2740;
+      --technik:#C4A6FF; --technik-bg:#2B2140;
+      --moebel:#FF8FBE; --moebel-bg:#3A1B2A;
+      --gebaeude:#A8B7C4; --gebaeude-bg:#232B30;
       --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 20px -10px rgba(0,0,0,.5);
       color-scheme: dark;
     }
@@ -57,6 +67,11 @@
     --verbesserung:#7FD09A; --verbesserung-bg:#1B3324;
     --offen:#7FE0DF; --offen-bg:#123638;
     --geloest:#8FA19D; --geloest-bg:#20302C;
+    --kueche:#FF9F5A; --kueche-bg:#3A2414;
+    --bad:#7FA8FF; --bad-bg:#1B2740;
+    --technik:#C4A6FF; --technik-bg:#2B2140;
+    --moebel:#FF8FBE; --moebel-bg:#3A1B2A;
+    --gebaeude:#A8B7C4; --gebaeude-bg:#232B30;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 20px -10px rgba(0,0,0,.5);
     color-scheme: dark;
   }
@@ -102,6 +117,11 @@
   .filter-chip[data-kategorie="Verbesserung"][aria-pressed="true"]{ background:var(--verbesserung); border-color:var(--verbesserung); }
   .filter-chip[data-status="Offen"][aria-pressed="true"]{ background:var(--offen); border-color:var(--offen); }
   .filter-chip[data-status="Gelöst"][aria-pressed="true"]{ background:var(--geloest); border-color:var(--geloest); }
+  .filter-chip[data-bereich="Küche"][aria-pressed="true"]{ background:var(--kueche); border-color:var(--kueche); }
+  .filter-chip[data-bereich="Bad"][aria-pressed="true"]{ background:var(--bad); border-color:var(--bad); }
+  .filter-chip[data-bereich="Technik & Elektro"][aria-pressed="true"]{ background:var(--technik); border-color:var(--technik); }
+  .filter-chip[data-bereich="Möbel & Einrichtung"][aria-pressed="true"]{ background:var(--moebel); border-color:var(--moebel); }
+  .filter-chip[data-bereich="Gebäude & Sonstiges"][aria-pressed="true"]{ background:var(--gebaeude); border-color:var(--gebaeude); }
 
   .spacer{ flex:1 1 auto; }
   select, input[type="search"]{
@@ -155,6 +175,11 @@
   .tag-verbesserung{ background:var(--verbesserung-bg); color:var(--verbesserung); }
   .tag-offen{ background:var(--offen-bg); color:var(--offen); }
   .tag-geloest{ background:var(--geloest-bg); color:var(--geloest); text-decoration:line-through; }
+  .tag-kueche{ background:var(--kueche-bg); color:var(--kueche); }
+  .tag-bad{ background:var(--bad-bg); color:var(--bad); }
+  .tag-technik{ background:var(--technik-bg); color:var(--technik); }
+  .tag-moebel{ background:var(--moebel-bg); color:var(--moebel); }
+  .tag-gebaeude{ background:var(--gebaeude-bg); color:var(--gebaeude); }
 
   .empty{ padding:32px; text-align:center; color:var(--ink-faint); font-size:.9rem; }
 
@@ -241,7 +266,7 @@
       <h1>Mängelliste FeWoZauber</h1>
       <p>Ferienwohnungen &amp; Pension, Schwerin</p>
     </div>
-    <div class="stand">Stand: 23.09.2026</div>
+    <div class="stand">Stand: 29.09.2026</div>
   </header>
 
   <div class="toolbar">
@@ -255,6 +280,14 @@
       <span class="chip-group-label">Status</span>
       <button class="filter-chip" data-status="Offen" aria-pressed="false">Offen</button>
       <button class="filter-chip" data-status="Gelöst" aria-pressed="false">Gelöst</button>
+    </div>
+    <div class="chip-group" id="bereich-filters" role="group" aria-label="Nach Bereich filtern">
+      <span class="chip-group-label">Bereich</span>
+      <button class="filter-chip" data-bereich="Küche" aria-pressed="false">Küche</button>
+      <button class="filter-chip" data-bereich="Bad" aria-pressed="false">Bad</button>
+      <button class="filter-chip" data-bereich="Technik & Elektro" aria-pressed="false">Technik &amp; Elektro</button>
+      <button class="filter-chip" data-bereich="Möbel & Einrichtung" aria-pressed="false">Möbel &amp; Einrichtung</button>
+      <button class="filter-chip" data-bereich="Gebäude & Sonstiges" aria-pressed="false">Gebäude &amp; Sonstiges</button>
     </div>
     <select id="objekt-filter" aria-label="Nach Haus filtern">
       <option value="">Alle Häuser</option>
@@ -272,6 +305,7 @@
           <th>ID</th>
           <th>Wohnung</th>
           <th>Mangel</th>
+          <th>Bereich</th>
           <th>Kategorie</th>
           <th>Status</th>
           <th>Zugewiesen an</th>
@@ -321,6 +355,7 @@ const DATEN = [
     "id": "DOMSCHLOSS_00",
     "objekt": "Domhof",
     "wohnung": "Dom Schloss",
+    "bereich": "Küche",
     "kategorie": "Defekt",
     "mangel": "Geschirrspüler defekt. Kostenvoranschlag: 400–420 € Reparatur oder 585 € Neugerät. Streit mit Vermieter, wer zahlt",
     "gemeldetVon": "A. (. S. F. Speidel-Elektro)",
@@ -329,12 +364,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Sven Fisch + Elektriker – seit 2 Monaten ungeklärt",
-    "offenTage": 89
+    "offenTage": 95
   },
   {
     "id": "DOMSCHLOSS_01",
     "objekt": "Domhof",
     "wohnung": "Dom Schloss",
+    "bereich": "Küche",
     "kategorie": "Defekt",
     "mangel": "Kühlschrank defekt, inzwischen ausgetauscht (erledigt) – Rechnung/Kostenübernahme mit Vermieter Matthias Schur noch strittig",
     "gemeldetVon": "Andreas",
@@ -349,6 +385,7 @@ const DATEN = [
     "id": "DOMSCHLOSS_02",
     "objekt": "Domhof",
     "wohnung": "Dom Schloss",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Gardinenstange aus der Wand gefallen, inkl. Dübel/Putz",
     "gemeldetVon": "A. (. S. Fisch)",
@@ -357,12 +394,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Marcel/m.starke angefragt, noch offen",
-    "offenTage": 55
+    "offenTage": 61
   },
   {
     "id": "DOMSCHLOSS_03",
     "objekt": "Domhof",
     "wohnung": "Dom Schloss (Gittertor/Zugang)",
+    "bereich": "Gebäude & Sonstiges",
     "kategorie": "Defekt",
     "mangel": "Schloss klemmt, Schlüssel geht nicht mehr rein – laut Smoobu-Verlauf schon seit Anfang Mai wiederkehrend (Workaround: Tür nur anlehnen), akut seit 10.08.",
     "gemeldetVon": "A. (. S. Fisch)",
@@ -371,12 +409,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Sven angefragt, noch offen",
-    "offenTage": 43
+    "offenTage": 49
   },
   {
     "id": "DOMHOF_00",
     "objekt": "Domhof",
     "wohnung": "? (oberste Wohnung, ungeklärt welche)",
+    "bereich": "Gebäude & Sonstiges",
     "kategorie": "Defekt",
     "mangel": "Zustand des Fußbodens prüfen",
     "gemeldetVon": "A. (. S. Fisch)",
@@ -385,12 +424,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Sven angefragt, noch offen",
-    "offenTage": 55
+    "offenTage": 61
   },
   {
     "id": "FEWO1_00",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 1",
+    "bereich": "Bad",
     "kategorie": "Defekt",
     "mangel": "Toilettenspülung defekt, Wasser läuft durch",
     "gemeldetVon": "G. C. Ellmerich",
@@ -399,12 +439,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 34
+    "offenTage": 40
   },
   {
     "id": "FEWO2_00",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Technik & Elektro",
     "kategorie": "Fehlt",
     "mangel": "Deckenlampe Esszimmer/Küche: 1 Glühbirne defekt, 1 fehlt komplett",
     "gemeldetVon": "G. J. Springer",
@@ -413,12 +454,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 67
+    "offenTage": 73
   },
   {
     "id": "FEWO2_01",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Technik & Elektro",
     "kategorie": "Fehlt",
     "mangel": "Wandlampe über dem Sofa ohne Leuchtmittel",
     "gemeldetVon": "G. S. Tekath",
@@ -427,12 +469,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen (alt, unklar ob erledigt)",
-    "offenTage": 124
+    "offenTage": 130
   },
   {
     "id": "PETERMAENNCHEN_00",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "bereich": "Technik & Elektro",
     "kategorie": "Defekt",
     "mangel": "Lampe im Bad über dem Spiegel kaputt",
     "gemeldetVon": "G. M. Petry",
@@ -441,12 +484,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "gelöst",
-    "offenTage": 98
+    "offenTage": 104
   },
   {
     "id": "HIDDENSEE_00",
     "objekt": "Pension am Dom",
     "wohnung": "Hiddensee",
+    "bereich": "Gebäude & Sonstiges",
     "kategorie": "Defekt",
     "mangel": "Starker Uringeruch, Zimmer nicht nutzbar – Buchung storniert & erstattet",
     "gemeldetVon": "G. G. Wiesner",
@@ -455,12 +499,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "ungeklärt, ob seither behoben",
-    "offenTage": 59
+    "offenTage": 65
   },
   {
     "id": "MECKLENBURG_00",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Küche",
     "kategorie": "Defekt",
     "mangel": "Kühlschrank kühlt nicht",
     "gemeldetVon": "G. F. Anett",
@@ -469,12 +514,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 45
+    "offenTage": 51
   },
   {
     "id": "MECKLENBURG_01",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Küche",
     "kategorie": "Defekt",
     "mangel": "Kühlschrank kühlt nicht und riecht unangenehm",
     "gemeldetVon": "G. F. Hafke",
@@ -483,12 +529,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Jacqueline",
     "notiz": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen. Jacqueline bestätigt 23.09.2026 erneut: weiterhin defekt, zusätzlich Lebensmittel eines Gastes verdorben, siehe MECKLENBURG_18",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "MECKLENBURG_02",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Küche",
     "kategorie": "Defekt",
     "mangel": "Geschirrspüler riecht unangenehm",
     "gemeldetVon": "G. F. Hafke",
@@ -497,12 +544,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Jacqueline",
     "notiz": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen. Jacqueline bestätigt 23.09.2026 erneut: zusätzlich Low-Salt-Warnung, Gerät funktioniert offenbar generell nicht richtig",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "MECKLENBURG_03",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Technik & Elektro",
     "kategorie": "Fehlt",
     "mangel": "Wohnung sehr warm, kein Ventilator vorhanden",
     "gemeldetVon": "G. F. Hafke",
@@ -511,12 +559,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Jacqueline",
     "notiz": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "MECKLENBURG_04",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Küche",
     "kategorie": "Fehlt",
     "mangel": "Kein Toaster vorhanden",
     "gemeldetVon": "G. F. Hafke",
@@ -525,12 +574,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Jacqueline",
     "notiz": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "MECKLENBURG_05",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Küche",
     "kategorie": "Fehlt",
     "mangel": "Kein Gefrierfach vorhanden",
     "gemeldetVon": "G. F. Hafke",
@@ -539,12 +589,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Jacqueline",
     "notiz": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "MECKLENBURG_06",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Bad",
     "kategorie": "Defekt",
     "mangel": "Waschbecken läuft nicht richtig ab",
     "gemeldetVon": "G. F. Hafke",
@@ -553,12 +604,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Jacqueline",
     "notiz": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "MECKLENBURG_07",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Bad",
     "kategorie": "Verbesserung",
     "mangel": "Sanitärbereich insgesamt überholungsbedürftig",
     "gemeldetVon": "G. F. Hafke",
@@ -567,12 +619,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Jacqueline",
     "notiz": "Jacqueline hat geantwortet, Prüfung zugesagt – noch offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "STRELITZ_00",
     "objekt": "Pension am Dom",
     "wohnung": "Strelitz",
+    "bereich": "Küche",
     "kategorie": "Fehlt",
     "mangel": "Küchenspüle ohne fließend Wasser",
     "gemeldetVon": "G. A. Hill",
@@ -581,12 +634,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "STRELITZ_01",
     "objekt": "Pension am Dom",
     "wohnung": "Strelitz",
+    "bereich": "Technik & Elektro",
     "kategorie": "Defekt",
     "mangel": "Glühbirne Küchenbeleuchtung defekt",
     "gemeldetVon": "G. A. Hill",
@@ -595,12 +649,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "STRELITZ_02",
     "objekt": "Pension am Dom",
     "wohnung": "Strelitz",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Betten knarzen bei jeder Bewegung, Matratzen durchgelegen",
     "gemeldetVon": "G. A. Hill",
@@ -609,12 +664,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "USEDOM_00",
     "objekt": "Pension am Dom",
     "wohnung": "Usedom",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Bett quietscht bei jeder kleinen Bewegung",
     "gemeldetVon": "G. S. Eckert",
@@ -623,12 +679,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "USEDOM_01",
     "objekt": "Pension am Dom",
     "wohnung": "Usedom",
+    "bereich": "Technik & Elektro",
     "kategorie": "Fehlt",
     "mangel": "Fernseher geht nicht, kein TV-Empfang",
     "gemeldetVon": "G. S. Eckert",
@@ -637,12 +694,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "USEDOM_02",
     "objekt": "Pension am Dom",
     "wohnung": "Usedom",
+    "bereich": "Küche",
     "kategorie": "Defekt",
     "mangel": "Kühlschrank lässt sich nur öffnen, wenn beide Fronttüren auf sind",
     "gemeldetVon": "G. S. Eckert",
@@ -651,12 +709,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "USEDOM_03",
     "objekt": "Pension am Dom",
     "wohnung": "Usedom",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Bettbezug an der oberen Kante aufgerissen",
     "gemeldetVon": "G. S. Eckert",
@@ -665,12 +724,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "USEDOM_04",
     "objekt": "Pension am Dom",
     "wohnung": "Usedom",
+    "bereich": "Bad",
     "kategorie": "Defekt",
     "mangel": "Duschwasser läuft nicht richtig ab",
     "gemeldetVon": "G. S. Eckert",
@@ -679,12 +739,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "USEDOM_05",
     "objekt": "Pension am Dom",
     "wohnung": "Usedom",
+    "bereich": "Küche",
     "kategorie": "Fehlt",
     "mangel": "Kein Brotmesser vorhanden",
     "gemeldetVon": "G. S. Eckert",
@@ -693,12 +754,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "USEDOM_06",
     "objekt": "Pension am Dom",
     "wohnung": "Usedom",
+    "bereich": "Küche",
     "kategorie": "Defekt",
     "mangel": "Küchenschwamm sehr abgenutzt",
     "gemeldetVon": "G. S. Eckert",
@@ -707,12 +769,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 24
+    "offenTage": 30
   },
   {
     "id": "FRANZ_00",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "bereich": "Bad",
     "kategorie": "Defekt",
     "mangel": "Spülkasten Toilette braucht sehr lange zum Füllen",
     "gemeldetVon": "G. T. Sänger",
@@ -721,12 +784,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 30
+    "offenTage": 36
   },
   {
     "id": "FRIEDRICH_00",
     "objekt": "Warnemünde",
     "wohnung": "Friedrich",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Gartensessel: Gestell und Polster kaputt",
     "gemeldetVon": "G. S. &. Frank",
@@ -741,6 +805,7 @@ const DATEN = [
     "id": "FEWO1_01",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 1",
+    "bereich": "Gebäude & Sonstiges",
     "kategorie": "Defekt",
     "mangel": "Schlüsselkasten beim Checkout für Gast unklar, Schlüssel im Zimmertür stecken gelassen",
     "gemeldetVon": "G. C. Jeromin",
@@ -749,12 +814,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen – evtl. Anleitung verbessern",
-    "offenTage": 23
+    "offenTage": 29
   },
   {
     "id": "FEWO3_00",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 3",
+    "bereich": "Bad",
     "kategorie": "Defekt",
     "mangel": "Duschvorhang-Halterung defekt",
     "gemeldetVon": "G. B. Kauert",
@@ -763,12 +829,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Andreas hat Prüfung/Reparatur zugesagt, noch offen",
-    "offenTage": 41
+    "offenTage": 47
   },
   {
     "id": "STRELITZ_03",
     "objekt": "Pension am Dom",
     "wohnung": "Strelitz",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Bett quietscht stark bei jeder Bewegung",
     "gemeldetVon": "G. L. Schumacher",
@@ -777,12 +844,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen (alt, unklar ob erledigt)",
-    "offenTage": 107
+    "offenTage": 113
   },
   {
     "id": "FRANZ_01",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "bereich": "Gebäude & Sonstiges",
     "kategorie": "Fehlt",
     "mangel": "Türdämpfer an der Wand kaputt oder fehlt",
     "gemeldetVon": "G. T. Nehls",
@@ -791,12 +859,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen (alt, unklar ob erledigt)",
-    "offenTage": 125
+    "offenTage": 131
   },
   {
     "id": "FRANZ_02",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "bereich": "Bad",
     "kategorie": "Verbesserung",
     "mangel": "Halter der Duschbrause: möglicher Schwarzschimmel, sollte geprüft werden",
     "gemeldetVon": "G. T. Nehls",
@@ -805,12 +874,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen (alt, unklar ob erledigt)",
-    "offenTage": 125
+    "offenTage": 131
   },
   {
     "id": "FRANZ_03",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "bereich": "Bad",
     "kategorie": "Defekt",
     "mangel": "Schwarzfleckiges Silikon um das Waschbecken",
     "gemeldetVon": "G. T. Nehls",
@@ -819,12 +889,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen (alt, unklar ob erledigt)",
-    "offenTage": 125
+    "offenTage": 131
   },
   {
     "id": "FRANZ_04",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Vorhänge fleckig, teils ausgerissene Gardinenhaken",
     "gemeldetVon": "G. T. Nehls",
@@ -833,12 +904,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen (alt, unklar ob erledigt)",
-    "offenTage": 125
+    "offenTage": 131
   },
   {
     "id": "FEWO2_02",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Bad",
     "kategorie": "Defekt",
     "mangel": "Bad: wiederholt stehendes Wasser auf dem Boden und Feuchtigkeit in den Fugen, seit Mai bei mehreren Gästen gemeldet – eine Gästin mit Schimmelallergie hatte Atemnot",
     "gemeldetVon": "G. C. G. (u.a.)",
@@ -847,12 +919,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Seit Monaten wiederkehrend, nicht dauerhaft behoben",
-    "offenTage": 145
+    "offenTage": 151
   },
   {
     "id": "PETERMAENNCHEN_01",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Gardinen/Vorhänge-Aufhängungen im Schlafzimmer kaputt, hängen durch",
     "gemeldetVon": "G. O. Vogt",
@@ -861,12 +934,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Andreas hat Prüfung nach Auszug zugesagt, noch offen",
-    "offenTage": 25
+    "offenTage": 31
   },
   {
     "id": "PETERMAENNCHEN_02",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "bereich": "Bad",
     "kategorie": "Defekt",
     "mangel": "Fliese in der Dusche gerissen, Fugen an einigen Stellen schwarz",
     "gemeldetVon": "G. O. Vogt",
@@ -875,12 +949,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Andreas hat Prüfung nach Auszug zugesagt, noch offen",
-    "offenTage": 25
+    "offenTage": 31
   },
   {
     "id": "PETERMAENNCHEN_03",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "bereich": "Bad",
     "kategorie": "Fehlt",
     "mangel": "Waschbecken im Bad ohne Verschluss/Stöpsel",
     "gemeldetVon": "G. O. Vogt",
@@ -889,12 +964,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Andreas hat Prüfung zugesagt, noch offen",
-    "offenTage": 25
+    "offenTage": 31
   },
   {
     "id": "PETERMAENNCHEN_04",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "bereich": "Technik & Elektro",
     "kategorie": "Defekt",
     "mangel": "Deckenlampe Bad: Birne fast durchgebrannt, kaum noch Licht",
     "gemeldetVon": "G. O. Vogt",
@@ -903,12 +979,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Andreas hat Prüfung zugesagt, noch offen",
-    "offenTage": 25
+    "offenTage": 31
   },
   {
     "id": "PETERMAENNCHEN_05",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "bereich": "Küche",
     "kategorie": "Defekt",
     "mangel": "Spülmaschine defekt",
     "gemeldetVon": "G. O. Vogt",
@@ -917,12 +994,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Andreas bestätigt defekt, kümmert sich \"schnellstmöglich\", noch offen",
-    "offenTage": 25
+    "offenTage": 31
   },
   {
     "id": "PETERMAENNCHEN_06",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "bereich": "Küche",
     "kategorie": "Fehlt",
     "mangel": "Schere und kleines Messer fehlen",
     "gemeldetVon": "G. O. Vogt",
@@ -931,12 +1009,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 25
+    "offenTage": 31
   },
   {
     "id": "FEWO5_00",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 5",
+    "bereich": "Technik & Elektro",
     "kategorie": "Defekt",
     "mangel": "TV und WLAN funktionieren nicht, evtl. wegen Bauarbeiten/Graben vor dem Haus",
     "gemeldetVon": "G. G. Schulz",
@@ -945,12 +1024,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 34
+    "offenTage": 40
   },
   {
     "id": "FEWO5_01",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 5",
+    "bereich": "Technik & Elektro",
     "kategorie": "Defekt",
     "mangel": "Licht in der Diele geht nicht",
     "gemeldetVon": "G. G. Schulz",
@@ -959,12 +1039,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 34
+    "offenTage": 40
   },
   {
     "id": "FEWO5_02",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 5",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Vorhang Schlafzimmer hält Licht nicht ausreichend ab",
     "gemeldetVon": "G. G. Schulz",
@@ -973,12 +1054,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 30
+    "offenTage": 36
   },
   {
     "id": "FEWO5_03",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 5",
+    "bereich": "Bad",
     "kategorie": "Verbesserung",
     "mangel": "Dichtleisten der Duschtüren abgenutzt, sollten ausgetauscht werden",
     "gemeldetVon": "G. G. Schulz",
@@ -987,12 +1069,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 30
+    "offenTage": 36
   },
   {
     "id": "FEWO5_04",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 5",
+    "bereich": "Küche",
     "kategorie": "Defekt",
     "mangel": "Kühlschranktür wackelig",
     "gemeldetVon": "G. G. Schulz",
@@ -1001,12 +1084,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 30
+    "offenTage": 36
   },
   {
     "id": "MECKLENBURG_08",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Gebäude & Sonstiges",
     "kategorie": "Defekt",
     "mangel": "Türklinke lässt sich nur schwer schließen",
     "gemeldetVon": "G. P. Doerner",
@@ -1015,12 +1099,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Andreas hat sich entschuldigt, noch offen",
-    "offenTage": 32
+    "offenTage": 38
   },
   {
     "id": "MECKLENBURG_09",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Gebäude & Sonstiges",
     "kategorie": "Defekt",
     "mangel": "Türgriffe (Küche) locker",
     "gemeldetVon": "G. P. Doerner",
@@ -1029,12 +1114,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Andreas hat sich entschuldigt, noch offen",
-    "offenTage": 32
+    "offenTage": 38
   },
   {
     "id": "MECKLENBURG_10",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Rollo nicht mehr nutzbar",
     "gemeldetVon": "G. P. Doerner",
@@ -1043,12 +1129,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Andreas hat sich entschuldigt, noch offen",
-    "offenTage": 32
+    "offenTage": 38
   },
   {
     "id": "FEWO4_00",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "bereich": "Bad",
     "kategorie": "Defekt",
     "mangel": "Lüftung im Bad verschmutzt und laut",
     "gemeldetVon": "G. S. Knappe",
@@ -1057,12 +1144,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 35
+    "offenTage": 41
   },
   {
     "id": "FEWO4_01",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "bereich": "Technik & Elektro",
     "kategorie": "Fehlt",
     "mangel": "TV nur öffentlich-rechtliche Sender, keine privaten/HD-Sender",
     "gemeldetVon": "G. S. Knappe",
@@ -1071,12 +1159,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 35
+    "offenTage": 41
   },
   {
     "id": "FEWO4_02",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "bereich": "Technik & Elektro",
     "kategorie": "Fehlt",
     "mangel": "Kein WLAN",
     "gemeldetVon": "G. S. Knappe",
@@ -1085,12 +1174,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen. Jacqueline bestätigt 23.09.2026 erneut: Netzwerk \"Kloster 20\" wird nicht angezeigt, ein Gast sieht nur einen Balken, Router im Objekt nicht auffindbar (kein Reset möglich)",
-    "offenTage": 35
+    "offenTage": 41
   },
   {
     "id": "FEWO4_03",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "bereich": "Technik & Elektro",
     "kategorie": "Defekt",
     "mangel": "Licht im Eingang flackert",
     "gemeldetVon": "G. S. Knappe",
@@ -1099,12 +1189,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 35
+    "offenTage": 41
   },
   {
     "id": "FEWO4_04",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "bereich": "Bad",
     "kategorie": "Fehlt",
     "mangel": "Duscharmatur: Drucknöpfe fehlen, scharfkantige Abplatzungen – Schnittgefahr, v. a. für Kinder",
     "gemeldetVon": "G. I. Stebner",
@@ -1113,12 +1204,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 46
+    "offenTage": 52
   },
   {
     "id": "FEWO4_05",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "bereich": "Bad",
     "kategorie": "Defekt",
     "mangel": "Duschkopf: schwarzer Schimmel",
     "gemeldetVon": "G. I. Stebner",
@@ -1127,12 +1219,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 46
+    "offenTage": 52
   },
   {
     "id": "FEWO4_06",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "bereich": "Bad",
     "kategorie": "Fehlt",
     "mangel": "Duschvorhang: fehlende Beschwerung, klebt an der Haut",
     "gemeldetVon": "G. I. Stebner",
@@ -1141,12 +1234,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 46
+    "offenTage": 52
   },
   {
     "id": "FEWO4_07",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 4",
+    "bereich": "Technik & Elektro",
     "kategorie": "Fehlt",
     "mangel": "Kein WLAN, Router zeigt rotes Licht",
     "gemeldetVon": "G. K. Sparbrod",
@@ -1155,12 +1249,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 51
+    "offenTage": 57
   },
   {
     "id": "DOMSCHLOSS_04",
     "objekt": "Domhof",
     "wohnung": "Dom Schloss",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Holzliegestuhl mit grüner Auflage kaputt",
     "gemeldetVon": "G. A. Doepmann",
@@ -1169,12 +1264,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 88
+    "offenTage": 94
   },
   {
     "id": "FEWO3_01",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 3",
+    "bereich": "Gebäude & Sonstiges",
     "kategorie": "Defekt",
     "mangel": "Schlüssel zur Wohnung defekt",
     "gemeldetVon": "G. M. Cavalli",
@@ -1183,12 +1279,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 93
+    "offenTage": 99
   },
   {
     "id": "DOMSCHLOSS_05",
     "objekt": "Domhof",
     "wohnung": "Dom Schloss",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Lichterkette am Kinderbett abgerissen (Gardinenstange kam beim Schließen runter)",
     "gemeldetVon": "G. C. Leister",
@@ -1197,12 +1294,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 121
+    "offenTage": 127
   },
   {
     "id": "STRELITZ_04",
     "objekt": "Pension am Dom",
     "wohnung": "Strelitz",
+    "bereich": "Küche",
     "kategorie": "Defekt",
     "mangel": "Kühlschrank-Innenraum leicht schimmelig",
     "gemeldetVon": "G. J. Mausch",
@@ -1211,12 +1309,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 131
+    "offenTage": 137
   },
   {
     "id": "PETERMAENNCHEN_07",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "bereich": "Gebäude & Sonstiges",
     "kategorie": "Defekt",
     "mangel": "Küchentür lässt sich nicht schließen",
     "gemeldetVon": "G. A. Krebs",
@@ -1225,12 +1324,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 136
+    "offenTage": 142
   },
   {
     "id": "PETERMAENNCHEN_08",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "bereich": "Bad",
     "kategorie": "Fehlt",
     "mangel": "Kein Sichtschutz (Plissee) im Bad zu den Nachbarn",
     "gemeldetVon": "G. A. Krebs",
@@ -1239,12 +1339,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 136
+    "offenTage": 142
   },
   {
     "id": "PETERMAENNCHEN_09",
     "objekt": "Pension am Dom",
     "wohnung": "Petermännchen",
+    "bereich": "Technik & Elektro",
     "kategorie": "Fehlt",
     "mangel": "Fernseher zeigt nur öffentlich-rechtliche Sender, kein Smart-TV – Gast wünscht sich Anschaffung eines Smart-TVs",
     "gemeldetVon": "G. O. Vogt",
@@ -1253,12 +1354,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Andreas hat den Hinweis aufgenommen, noch offen",
-    "offenTage": 25
+    "offenTage": 31
   },
   {
     "id": "FEWO2_03",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Küche",
     "kategorie": "Defekt",
     "mangel": "Wasserkocher leckt, Gast weist auf Verbrühungsgefahr hin und rät zum Austausch",
     "gemeldetVon": "G. H. L. M. Lichteveld",
@@ -1267,12 +1369,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 19
+    "offenTage": 25
   },
   {
     "id": "FRANZ_05",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "bereich": "Technik & Elektro",
     "kategorie": "Defekt",
     "mangel": "Heizung/Fußbodenheizung springt nicht an, Wohnung bleibt kalt – laut Andreas' Antwort schaltet sich die Anlage erst nach ca. 24h unter einem Außentemperatur-Schwellenwert ein, Fußbodenheizung reagiert zusätzlich träge",
     "gemeldetVon": "G. K. J. (. n. i. S. s. n. A. A. darauf)",
@@ -1281,12 +1384,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Andreas hat mit Eigentümer gesprochen, heute keine Besserung zu erwarten, Preisnachlass bei Bedarf angeboten – noch offen",
-    "offenTage": 19
+    "offenTage": 25
   },
   {
     "id": "FRANZ_06",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Plissee im Wohnzimmer zerrissen",
     "gemeldetVon": "G. K. Jäkel",
@@ -1295,12 +1399,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 19
+    "offenTage": 25
   },
   {
     "id": "FRANZ_07",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Sitzmöbel im Wohnzimmer zu tief zum Sitzen, für Gästin nach Knie-OP kaum nutzbar",
     "gemeldetVon": "G. K. Jäkel",
@@ -1309,12 +1414,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 19
+    "offenTage": 25
   },
   {
     "id": "FEWO2_04",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Verbesserung",
     "mangel": "Zu wenig Stühle/Hocker am Esstisch, Gast bittet um 2 zusätzliche",
     "gemeldetVon": "G. C. d. J. (. Sietze)",
@@ -1323,12 +1429,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Antwort im Thread erhalten (\"gern geschehen\"), ob Stühle geliefert wurden nicht ersichtlich – offen",
-    "offenTage": 17
+    "offenTage": 23
   },
   {
     "id": "FRANZ_08",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Fehlt",
     "mangel": "Keine Nachttische im Schlafzimmer vorhanden, Gast wünscht sich welche",
     "gemeldetVon": "G. P. Greßmann",
@@ -1337,12 +1444,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 15
+    "offenTage": 21
   },
   {
     "id": "FRANZ_09",
     "objekt": "Warnemünde",
     "wohnung": "Franz",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Fehlt",
     "mangel": "Keine Plissees an den Fenstern in Schlafzimmer und Bad (nur Vorhänge), Gast wünscht sich Plissees für tagsüber",
     "gemeldetVon": "G. P. Greßmann",
@@ -1351,12 +1459,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 15
+    "offenTage": 21
   },
   {
     "id": "FEWO2_05",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Gebäude & Sonstiges",
     "kategorie": "Defekt",
     "mangel": "Wohnungsschlüssel abgebrochen, ein Teil steckt im Schloss im Eingangsbereich – Ersatzschlüssel nötig, Wohnung sonst nicht verlassbar",
     "gemeldetVon": "G. O. Kucher",
@@ -1371,6 +1480,7 @@ const DATEN = [
     "id": "MECKLENBURG_11",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Küche",
     "kategorie": "Verbesserung",
     "mangel": "Geschirr aus dem Schrank teilweise verschmutzt und klebrig; Gast vermutet, der Geschirrspüler reinigt nicht richtig, bittet um Prüfung von Gerät bzw. Filter/Ablauf",
     "gemeldetVon": "G. K. Appel",
@@ -1379,12 +1489,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 11
+    "offenTage": 17
   },
   {
     "id": "FEWO2_06",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Technik & Elektro",
     "kategorie": "Fehlt",
     "mangel": "Fernseher lässt sich nicht einstellen, Gast bekommt kein Bild (\"bekommen es leider nicht hin\") und fragt, ob das Gerät gar nicht geht – ungeklärt, ob Bedienungsproblem oder Defekt",
     "gemeldetVon": "G. M. Dick",
@@ -1393,12 +1504,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 11
+    "offenTage": 17
   },
   {
     "id": "STRELITZ_05",
     "objekt": "Pension am Dom",
     "wohnung": "Strelitz",
+    "bereich": "Bad",
     "kategorie": "Fehlt",
     "mangel": "Laut Inserat kostenlose Toilettenartikel (Duschgel, Shampoo, Conditioner) angekündigt, im Apartment aber keine vorhanden; Gast bittet während des laufenden Aufenthalts um Bereitstellung",
     "gemeldetVon": "G. R. Mello",
@@ -1407,12 +1519,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 9
+    "offenTage": 15
   },
   {
     "id": "FEWO2_07",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Küche",
     "kategorie": "Defekt",
     "mangel": "Kühlschrank: Tür zum Eisfach defekt",
     "gemeldetVon": "G. R. Simon",
@@ -1421,12 +1534,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 0
+    "offenTage": 6
   },
   {
     "id": "FEWO2_08",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Bad",
     "kategorie": "Defekt",
     "mangel": "Badtür quietscht stark, Duschvorhang am unteren Rand mit Schimmelflecken, Bodenfliesen im Bad stark verkalkt",
     "gemeldetVon": "G. P. Kluck",
@@ -1435,12 +1549,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Andreas hat Prüfung zugesagt, noch offen",
-    "offenTage": 3
+    "offenTage": 9
   },
   {
     "id": "VORPOMMERN_00",
     "objekt": "Pension am Dom",
     "wohnung": "Vorpommern",
+    "bereich": "Bad",
     "kategorie": "Defekt",
     "mangel": "Wasserhahn am Waschbecken sehr schwergängig, Strahl nicht kontrollierbar; Verbindungstür zwischen zwei Räumen quietscht laut, stört nachts",
     "gemeldetVon": "G. S. Helga",
@@ -1449,12 +1564,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Jacqueline",
     "notiz": "Andreas/Jacqueline haben Prüfung zugesagt, noch offen",
-    "offenTage": 8
+    "offenTage": 14
   },
   {
     "id": "MECKLENBURG_12",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Fehlt",
     "mangel": "Nur 10 Bügel für beide Schlafzimmer vorhanden",
     "gemeldetVon": "Jacqueline",
@@ -1463,12 +1579,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Jacqueline",
     "notiz": "offen",
-    "offenTage": 0
+    "offenTage": 6
   },
   {
     "id": "MECKLENBURG_13",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Schraube in einem Kleiderschrank ausgebrochen",
     "gemeldetVon": "Jacqueline",
@@ -1477,12 +1594,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Jacqueline",
     "notiz": "offen",
-    "offenTage": 0
+    "offenTage": 6
   },
   {
     "id": "MECKLENBURG_14",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Fehlt",
     "mangel": "Rollos im kleineren Schlafzimmer nicht mehr vorhanden",
     "gemeldetVon": "Jacqueline",
@@ -1491,12 +1609,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Jacqueline",
     "notiz": "ggf. gleiche Ursache wie MECKLENBURG_10 (Rollo im Wohnbereich), separat gemeldet",
-    "offenTage": 0
+    "offenTage": 6
   },
   {
     "id": "MECKLENBURG_15",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Fehlt",
     "mangel": "Keine Garderobe im Flur",
     "gemeldetVon": "Jacqueline",
@@ -1505,12 +1624,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Jacqueline",
     "notiz": "offen",
-    "offenTage": 0
+    "offenTage": 6
   },
   {
     "id": "MECKLENBURG_16",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Technik & Elektro",
     "kategorie": "Defekt",
     "mangel": "Kabel hängt im Flur aus der Wand",
     "gemeldetVon": "Jacqueline",
@@ -1519,12 +1639,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Jacqueline",
     "notiz": "offen",
-    "offenTage": 0
+    "offenTage": 6
   },
   {
     "id": "MECKLENBURG_17",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Küche",
     "kategorie": "Fehlt",
     "mangel": "Nur 2 Spülmaschinentabs vorhanden",
     "gemeldetVon": "Jacqueline",
@@ -1533,12 +1654,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Jacqueline",
     "notiz": "offen",
-    "offenTage": 0
+    "offenTage": 6
   },
   {
     "id": "MECKLENBURG_18",
     "objekt": "Pension am Dom",
     "wohnung": "Mecklenburg",
+    "bereich": "Küche",
     "kategorie": "Defekt",
     "mangel": "Lebensmittel durch defekten Kühlschrank verdorben, Gast bittet um Erstattung der Kosten",
     "gemeldetVon": "Jacqueline",
@@ -1547,12 +1669,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "Zusammenhang mit MECKLENBURG_01 (Kühlschrank kühlt nicht/riecht) – Erstattungsfrage noch offen, Andreas' Entscheidung nötig",
-    "offenTage": 0
+    "offenTage": 6
   },
   {
     "id": "FEWO2_09",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Verbesserung",
     "mangel": "Esstisch sehr instabil",
     "gemeldetVon": "Jacqueline",
@@ -1561,12 +1684,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 0
+    "offenTage": 6
   },
   {
     "id": "FEWO2_10",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Sofa durchgesessen und teilweise kaputt",
     "gemeldetVon": "Jacqueline",
@@ -1575,12 +1699,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 0
+    "offenTage": 6
   },
   {
     "id": "FEWO2_11",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Defekt",
     "mangel": "Sessel durchgesessen und teilweise kaputt",
     "gemeldetVon": "Jacqueline",
@@ -1589,12 +1714,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 0
+    "offenTage": 6
   },
   {
     "id": "FEWO2_12",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Gebäude & Sonstiges",
     "kategorie": "Verbesserung",
     "mangel": "Beworbener Gartenblick entspricht nicht der Realität, tatsächlicher Ausblick eher Richtung Parkhaus",
     "gemeldetVon": "Jacqueline",
@@ -1603,12 +1729,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 0
+    "offenTage": 6
   },
   {
     "id": "FEWO2_13",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Bad",
     "kategorie": "Verbesserung",
     "mangel": "Zustand des Badezimmers von Gast stark kritisiert",
     "gemeldetVon": "Jacqueline",
@@ -1617,12 +1744,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 0
+    "offenTage": 6
   },
   {
     "id": "FEWO2_14",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Möbel & Einrichtung",
     "kategorie": "Verbesserung",
     "mangel": "Möbel größtenteils abgenutzt bzw. uneinheitlich",
     "gemeldetVon": "Jacqueline",
@@ -1631,12 +1759,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 0
+    "offenTage": 6
   },
   {
     "id": "FEWO2_15",
     "objekt": "Klosterstr.",
     "wohnung": "Fewo 2",
+    "bereich": "Technik & Elektro",
     "kategorie": "Fehlt",
     "mangel": "Deckenlampe nur zur Hälfte vorhanden",
     "gemeldetVon": "Jacqueline",
@@ -1645,12 +1774,13 @@ const DATEN = [
     "status": "Offen",
     "zugewiesen": "Andreas",
     "notiz": "offen",
-    "offenTage": 0
+    "offenTage": 6
   }
 ];
 
 const KATEGORIE_KLASSE = {"Defekt":"defekt", "Fehlt":"fehlt", "Verbesserung":"verbesserung"};
 const STATUS_KLASSE = {"Offen":"offen", "Gelöst":"geloest"};
+const BEREICH_KLASSE = {"Küche":"kueche", "Bad":"bad", "Technik & Elektro":"technik", "Möbel & Einrichtung":"moebel", "Gebäude & Sonstiges":"gebaeude"};
 
 function fmtDate(iso){
   const p = iso.split("-");
@@ -1664,6 +1794,7 @@ let objektFilter = "";
 let searchTerm = "";
 let aktiveKategorien = new Set();
 let aktiveStatus = new Set();
+let aktiveBereiche = new Set();
 
 function populateObjektFilter(){
   const sel = document.getElementById("objekt-filter");
@@ -1678,9 +1809,10 @@ function populateObjektFilter(){
 function rowMatches(d){
   if(aktiveKategorien.size && !aktiveKategorien.has(d.kategorie)) return false;
   if(aktiveStatus.size && !aktiveStatus.has(d.status)) return false;
+  if(aktiveBereiche.size && !aktiveBereiche.has(d.bereich)) return false;
   if(objektFilter && d.objekt !== objektFilter) return false;
   if(searchTerm){
-    const hay = (d.id + " " + d.objekt + " " + d.wohnung + " " + d.mangel + " " + d.kategorie + " " + d.status + " " + d.zugewiesen + " " + d.notiz).toLowerCase();
+    const hay = (d.id + " " + d.objekt + " " + d.wohnung + " " + d.mangel + " " + d.bereich + " " + d.kategorie + " " + d.status + " " + d.zugewiesen + " " + d.notiz).toLowerCase();
     if(!hay.includes(searchTerm)) return false;
   }
   return true;
@@ -1689,6 +1821,7 @@ function rowMatches(d){
 function rowHTML(d){
   const kKlasse = KATEGORIE_KLASSE[d.kategorie] || "defekt";
   const sKlasse = STATUS_KLASSE[d.status] || "offen";
+  const bKlasse = BEREICH_KLASSE[d.bereich] || "gebaeude";
   const zeitraumM = /^(\d{2})\.(\d{2})\.\d{4}[–-](\d{2}\.\d{2}\.\d{4})$/.exec(d.aufenthalt || "");
   const teile = [];
   if(zeitraumM) teile.push(zeitraumM[1] + "." + zeitraumM[2] + " - " + zeitraumM[3]);
@@ -1699,6 +1832,7 @@ function rowHTML(d){
     '<td class="col-id" data-label="ID"><span class="val">' + esc(d.id) + '</span></td>' +
     '<td class="col-wohnung" data-label="Wohnung"><span class="val">' + esc(d.wohnung) + '</span></td>' +
     '<td class="col-mangel" data-label="Mangel"><span class="val">' + esc(d.mangel) + '</span>' + infoZeile + '</td>' +
+    '<td class="col-bereich" data-label="Bereich"><span class="tag tag-' + bKlasse + '">' + esc(d.bereich) + '</span></td>' +
     '<td class="col-kategorie" data-label="Kategorie"><span class="tag tag-' + kKlasse + '">' + esc(d.kategorie) + '</span></td>' +
     '<td class="col-status" data-label="Status"><span class="tag tag-' + sKlasse + '">' + esc(d.status) + '</span></td>' +
     '<td class="col-zugewiesen" data-label="Zugewiesen an"><span class="val">' + esc(d.zugewiesen) + '</span>' + (d.notiz ? '<span class="subline">' + esc(d.notiz) + '</span>' : '') + '</td>' +
@@ -1706,7 +1840,7 @@ function rowHTML(d){
 }
 
 function groupHeaderHTML(objekt, anzahl){
-  return '<tr class="group-row"><td class="group-cell" colspan="6">' + esc(objekt) + ' <span class="group-count">(' + anzahl + ')</span></td></tr>';
+  return '<tr class="group-row"><td class="group-cell" colspan="7">' + esc(objekt) + ' <span class="group-count">(' + anzahl + ')</span></td></tr>';
 }
 
 function render(){
@@ -1738,6 +1872,14 @@ document.querySelectorAll("#status-filters .filter-chip").forEach(btn => {
     const s = btn.dataset.status;
     if(aktiveStatus.has(s)){ aktiveStatus.delete(s); btn.setAttribute("aria-pressed", "false"); }
     else { aktiveStatus.add(s); btn.setAttribute("aria-pressed", "true"); }
+    render();
+  });
+});
+document.querySelectorAll("#bereich-filters .filter-chip").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const b = btn.dataset.bereich;
+    if(aktiveBereiche.has(b)){ aktiveBereiche.delete(b); btn.setAttribute("aria-pressed", "false"); }
+    else { aktiveBereiche.add(b); btn.setAttribute("aria-pressed", "true"); }
     render();
   });
 });
