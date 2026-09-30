@@ -218,6 +218,7 @@
   th.sortable[aria-sort="ascending"] .sort-ind::after{ content:"↑"; }
   th.sortable[aria-sort="descending"] .sort-ind::after{ content:"↓"; }
   #sort-mobile{ display:none; }
+  .col-bereich .kurz{ display:none; }
   @media (max-width: 720px){ #sort-mobile{ display:block; } }
   @media (max-width: 720px){
     .table-scroll{ overflow-x:visible; border:none; background:none; box-shadow:none; }
@@ -248,7 +249,20 @@
     }
     .col-id{ font-size:.9rem; }
     .col-wohnung{ max-width:none; text-align:right; }
-    .col-wohnung .val{ max-width:65%; }
+    /* Kompakte Karte: Zeile 1 = ID + Wohnung, Zeile 3 = Bereich + Kategorie + Aufwand + Status */
+    tbody tr:not(.group-row){ display:flex; flex-wrap:wrap; align-items:center; column-gap:6px; }
+    tbody td.col-id, tbody td.col-wohnung, tbody td.col-bereich, tbody td.col-kategorie,
+    tbody td.col-aufwand, tbody td.col-status{ flex:0 0 auto; border-bottom:none; padding:4px 0; }
+    tbody td.col-id::before, tbody td.col-wohnung::before, tbody td.col-bereich::before,
+    tbody td.col-kategorie::before, tbody td.col-aufwand::before, tbody td.col-status::before{ content:none; }
+    tbody td.col-wohnung{ flex:1 1 0; justify-content:flex-end; font-weight:600; }
+    tbody td.col-mangel{ flex:1 1 100%; border-top:1px dashed var(--line); margin-top:4px; }
+    tbody td.col-zugewiesen{ flex:1 1 100%; border-top:1px dashed var(--line); margin-top:4px; }
+    tbody tr:not(.group-row){ column-gap:4px; }
+    .col-bereich .lang{ display:none; }
+    .col-bereich .kurz{ display:inline; }
+    tbody td.col-bereich .tag, tbody td.col-kategorie .tag, tbody td.col-status .tag{ font-size:.74rem; padding:3px 8px; }
+    tbody td.col-aufwand{ font-size:.74rem; font-weight:700; padding:3px 8px; margin:4px 0; border-radius:999px; background:var(--line); }
     .col-mangel{ max-width:none; flex-direction:column; align-items:stretch; text-align:left; font-weight:500; }
     .col-mangel .subline{ text-align:left; }
     .col-zugewiesen{ max-width:none; flex-direction:column; align-items:stretch; text-align:left; }
@@ -1916,6 +1930,7 @@ function fmtH(h){
   return (h === null || h === undefined) ? "–" : String(h).replace(".", ",") + " h";
 }
 const STATUS_KLASSE = {"Offen":"offen", "Gelöst":"geloest"};
+const BEREICH_KURZ = {"Technik & Elektro":"Technik", "Möbel & Einrichtung":"Möbel", "Gebäude & Sonstiges":"Gebäude"};
 const BEREICH_KLASSE = {"Küche":"kueche", "Bad":"bad", "Technik & Elektro":"technik", "Möbel & Einrichtung":"moebel", "Gebäude & Sonstiges":"gebaeude"};
 
 function fmtDate(iso){
@@ -1997,7 +2012,7 @@ function rowHTML(d){
     '<td class="col-id" data-label="ID"><span class="val">' + esc(d.id) + '</span></td>' +
     '<td class="col-wohnung" data-label="Wohnung"><span class="val">' + esc(d.wohnung) + '</span></td>' +
     '<td class="col-mangel" data-label="Mangel"><span class="val">' + esc(d.mangel) + '</span>' + infoZeile + '</td>' +
-    '<td class="col-bereich" data-label="Bereich"><span class="tag tag-' + bKlasse + '">' + esc(d.bereich) + '</span></td>' +
+    '<td class="col-bereich" data-label="Bereich"><span class="tag tag-' + bKlasse + '"><span class="lang">' + esc(d.bereich) + '</span><span class="kurz">' + esc(BEREICH_KURZ[d.bereich] || d.bereich) + '</span></span></td>' +
     '<td class="col-kategorie" data-label="Kategorie"><span class="tag tag-' + kKlasse + '">' + esc(d.kategorie) + '</span></td>' +
     '<td class="col-aufwand" data-label="Aufwand"><span class="val">' + esc(fmtH(d.aufwand)) + '</span></td>' +
     '<td class="col-status" data-label="Status"><span class="tag tag-' + sKlasse + '">' + esc(d.status) + '</span></td>' +
