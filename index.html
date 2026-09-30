@@ -210,6 +210,15 @@
   #app{ display:none; }
 
   /* Karten-Ansicht fürs Handy statt scrollender Tabelle */
+  th.sortable button{ all:unset; cursor:pointer; display:inline-flex; align-items:center; gap:4px; }
+  th.sortable button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  th.sortable .sort-ind{ font-size:.7rem; opacity:.35; }
+  th.sortable .sort-ind::after{ content:"↕"; }
+  th.sortable[aria-sort="ascending"] .sort-ind, th.sortable[aria-sort="descending"] .sort-ind{ opacity:1; }
+  th.sortable[aria-sort="ascending"] .sort-ind::after{ content:"↑"; }
+  th.sortable[aria-sort="descending"] .sort-ind::after{ content:"↓"; }
+  #sort-mobile{ display:none; }
+  @media (max-width: 720px){ #sort-mobile{ display:block; } }
   @media (max-width: 720px){
     .table-scroll{ overflow-x:visible; border:none; background:none; box-shadow:none; }
     table{ min-width:0; width:100%; display:block; }
@@ -300,6 +309,25 @@
       <option value="Matti">Matti</option>
       <option value="Person-Finden">Person-Finden</option>
     </select>
+    <select id="sort-mobile" aria-label="Sortierung innerhalb der Häuser">
+      <option value="">Sortierung: Wohnung</option>
+      <option value="id:asc">ID ↑</option>
+      <option value="id:desc">ID ↓</option>
+      <option value="wohnung:asc">Wohnung ↑</option>
+      <option value="wohnung:desc">Wohnung ↓</option>
+      <option value="mangel:asc">Mangel ↑</option>
+      <option value="mangel:desc">Mangel ↓</option>
+      <option value="bereich:asc">Bereich ↑</option>
+      <option value="bereich:desc">Bereich ↓</option>
+      <option value="kategorie:asc">Kategorie ↑</option>
+      <option value="kategorie:desc">Kategorie ↓</option>
+      <option value="aufwand:asc">Aufwand ↑</option>
+      <option value="aufwand:desc">Aufwand ↓</option>
+      <option value="status:asc">Status ↑</option>
+      <option value="status:desc">Status ↓</option>
+      <option value="zugewiesen:asc">Zugewiesen an ↑</option>
+      <option value="zugewiesen:desc">Zugewiesen an ↓</option>
+    </select>
     <div class="spacer"></div>
     <input type="search" id="search" placeholder="Suchen …" aria-label="Freitextsuche" />
   </div>
@@ -310,14 +338,14 @@
     <table id="tbl">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Wohnung</th>
-          <th>Mangel</th>
-          <th>Bereich</th>
-          <th>Kategorie</th>
-          <th>Aufwand</th>
-          <th>Status</th>
-          <th>Zugewiesen an</th>
+          <th class="sortable" data-sort="id" aria-sort="none"><button type="button">ID<span class="sort-ind"></span></button></th>
+          <th class="sortable" data-sort="wohnung" aria-sort="none"><button type="button">Wohnung<span class="sort-ind"></span></button></th>
+          <th class="sortable" data-sort="mangel" aria-sort="none"><button type="button">Mangel<span class="sort-ind"></span></button></th>
+          <th class="sortable" data-sort="bereich" aria-sort="none"><button type="button">Bereich<span class="sort-ind"></span></button></th>
+          <th class="sortable" data-sort="kategorie" aria-sort="none"><button type="button">Kategorie<span class="sort-ind"></span></button></th>
+          <th class="sortable" data-sort="aufwand" aria-sort="none"><button type="button">Aufwand<span class="sort-ind"></span></button></th>
+          <th class="sortable" data-sort="status" aria-sort="none"><button type="button">Status<span class="sort-ind"></span></button></th>
+          <th class="sortable" data-sort="zugewiesen" aria-sort="none"><button type="button">Zugewiesen an<span class="sort-ind"></span></button></th>
         </tr>
       </thead>
       <tbody id="tbody"></tbody>
@@ -1899,6 +1927,30 @@ function esc(s){
 
 let objektFilter = "";
 let zugewiesenFilter = "";
+let sortKey = "";
+let sortDir = "asc";
+
+function standardSort(a, b){
+  return a.wohnung.localeCompare(b.wohnung, "de") || a.id.localeCompare(b.id, "de");
+}
+function vergleiche(a, b){
+  if(!sortKey) return standardSort(a, b);
+  const va = a[sortKey], vb = b[sortKey];
+  const leerA = va === null || va === undefined || va === "", leerB = vb === null || vb === undefined || vb === "";
+  if(leerA !== leerB) return leerA ? 1 : -1;   // leere Werte immer ans Ende
+  let r = 0;
+  if(!leerA) r = typeof va === "number" ? va - vb : String(va).localeCompare(String(vb), "de", {numeric:true});
+  if(sortDir === "desc") r = -r;
+  return r || standardSort(a, b);
+}
+function setzeSortierung(key, dir){
+  sortKey = key; sortDir = dir;
+  document.querySelectorAll("th.sortable").forEach(th => {
+    th.setAttribute("aria-sort", th.dataset.sort === sortKey ? (sortDir === "asc" ? "ascending" : "descending") : "none");
+  });
+  document.getElementById("sort-mobile").value = sortKey ? sortKey + ":" + sortDir : "";
+  render();
+}
 function norm(s){
   return String(s ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
 }
@@ -1963,7 +2015,7 @@ function render(){
   objekte.forEach(objekt => {
     const zeilen = filtered
       .filter(d => d.objekt === objekt)
-      .sort((a,b) => a.wohnung.localeCompare(b.wohnung, "de") || a.id.localeCompare(b.id, "de"));
+      .sort(vergleiche);
     const stunden = zeilen.filter(d => d.status === "Offen").reduce((sum, d) => sum + (d.aufwand || 0), 0);
     html += groupHeaderHTML(objekt, zeilen.length, Math.round(stunden * 100) / 100) + zeilen.map(rowHTML).join("");
   });
@@ -1999,6 +2051,14 @@ document.querySelectorAll("#bereich-filters .filter-chip").forEach(btn => {
 });
 document.getElementById("objekt-filter").addEventListener("change", e => { objektFilter = e.target.value; render(); });
 document.getElementById("zugewiesen-filter").addEventListener("change", e => { zugewiesenFilter = e.target.value; render(); });
+document.querySelectorAll("th.sortable button").forEach(btn => btn.addEventListener("click", () => {
+  const key = btn.parentElement.dataset.sort;
+  setzeSortierung(key, sortKey === key && sortDir === "asc" ? "desc" : "asc");
+}));
+document.getElementById("sort-mobile").addEventListener("change", e => {
+  const [key, dir] = e.target.value ? e.target.value.split(":") : ["", "asc"];
+  setzeSortierung(key, dir);
+});
 document.getElementById("search").addEventListener("input", e => { searchTerm = e.target.value.toLowerCase(); render(); });
 
 populateObjektFilter();
