@@ -292,6 +292,14 @@
     <select id="objekt-filter" aria-label="Nach Haus filtern">
       <option value="">Alle Häuser</option>
     </select>
+    <select id="zugewiesen-filter" aria-label="Nach Zuständigkeit filtern">
+      <option value="">Alle Zuständigen</option>
+      <option value="Andreas">Andreas</option>
+      <option value="Jacqueline">Jacqueline</option>
+      <option value="René">René</option>
+      <option value="Matti">Matti</option>
+      <option value="Person-Finden">Person-Finden</option>
+    </select>
     <div class="spacer"></div>
     <input type="search" id="search" placeholder="Suchen …" aria-label="Freitextsuche" />
   </div>
@@ -1890,6 +1898,10 @@ function esc(s){
 }
 
 let objektFilter = "";
+let zugewiesenFilter = "";
+function norm(s){
+  return String(s ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
+}
 let searchTerm = "";
 let aktiveKategorien = new Set();
 let aktiveStatus = new Set();
@@ -1910,6 +1922,7 @@ function rowMatches(d){
   if(aktiveStatus.size && !aktiveStatus.has(d.status)) return false;
   if(aktiveBereiche.size && !aktiveBereiche.has(d.bereich)) return false;
   if(objektFilter && d.objekt !== objektFilter) return false;
+  if(zugewiesenFilter && norm(d.zugewiesen) !== norm(zugewiesenFilter)) return false;
   if(searchTerm){
     const hay = (d.id + " " + d.objekt + " " + d.wohnung + " " + d.mangel + " " + d.bereich + " " + d.kategorie + " " + d.status + " " + d.zugewiesen + " " + d.notiz).toLowerCase();
     if(!hay.includes(searchTerm)) return false;
@@ -1985,6 +1998,7 @@ document.querySelectorAll("#bereich-filters .filter-chip").forEach(btn => {
   });
 });
 document.getElementById("objekt-filter").addEventListener("change", e => { objektFilter = e.target.value; render(); });
+document.getElementById("zugewiesen-filter").addEventListener("change", e => { zugewiesenFilter = e.target.value; render(); });
 document.getElementById("search").addEventListener("input", e => { searchTerm = e.target.value.toLowerCase(); render(); });
 
 populateObjektFilter();
